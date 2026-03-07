@@ -24,18 +24,31 @@ export default function Cursor() {
     const hoverEls = document.querySelectorAll('a, button, [data-cursor]')
     hoverEls.forEach(el => {
       el.addEventListener('mouseenter', () => {
-        dotRef.current?.style.setProperty('background', 'var(--accent)')
-        dotRef.current?.style.setProperty('transform', 'translate(-50%,-50%) scale(2)')
-        ringRef.current?.style.setProperty('border-color', 'var(--accent)')
-        ringRef.current?.style.setProperty('width', '52px')
-        ringRef.current?.style.setProperty('height', '52px')
+        if (!dotRef.current || !ringRef.current) return
+        // Change size/colour — do NOT touch transform (it's owned by Framer Motion)
+        dotRef.current.style.background  = 'var(--accent)'
+        dotRef.current.style.width       = '14px'
+        dotRef.current.style.height      = '14px'
+        dotRef.current.style.marginLeft  = '-7px'
+        dotRef.current.style.marginTop   = '-7px'
+        ringRef.current.style.borderColor = 'var(--accent)'
+        ringRef.current.style.width      = '52px'
+        ringRef.current.style.height     = '52px'
+        ringRef.current.style.marginLeft = '-26px'
+        ringRef.current.style.marginTop  = '-26px'
       })
       el.addEventListener('mouseleave', () => {
-        dotRef.current?.style.setProperty('background', 'var(--white)')
-        dotRef.current?.style.setProperty('transform', 'translate(-50%,-50%) scale(1)')
-        ringRef.current?.style.setProperty('border-color', 'rgba(255,255,255,0.4)')
-        ringRef.current?.style.setProperty('width', '36px')
-        ringRef.current?.style.setProperty('height', '36px')
+        if (!dotRef.current || !ringRef.current) return
+        dotRef.current.style.background  = 'var(--white)'
+        dotRef.current.style.width       = '8px'
+        dotRef.current.style.height      = '8px'
+        dotRef.current.style.marginLeft  = '-4px'
+        dotRef.current.style.marginTop   = '-4px'
+        ringRef.current.style.borderColor = 'rgba(255,255,255,0.4)'
+        ringRef.current.style.width      = '36px'
+        ringRef.current.style.height     = '36px'
+        ringRef.current.style.marginLeft = '-18px'
+        ringRef.current.style.marginTop  = '-18px'
       })
     })
 
@@ -44,17 +57,20 @@ export default function Cursor() {
 
   return (
     <>
+      {/* Dot — centred via margin, NOT transform (transform is owned by Framer Motion x/y) */}
       <motion.div
         ref={dotRef}
         aria-hidden="true"
         style={{
           position: 'fixed', top: 0, left: 0, pointerEvents: 'none',
           zIndex: 9999, width: 8, height: 8, borderRadius: '50%',
-          background: 'var(--white)', transform: 'translate(-50%,-50%)',
-          transition: 'background 0.2s, transform 0.1s',
+          background: 'var(--white)',
+          marginLeft: '-4px', marginTop: '-4px',
+          transition: 'background 0.2s, width 0.15s, height 0.15s, margin 0.15s',
           x: springX, y: springY,
         }}
       />
+      {/* Ring */}
       <motion.div
         ref={ringRef}
         aria-hidden="true"
@@ -62,8 +78,8 @@ export default function Cursor() {
           position: 'fixed', top: 0, left: 0, pointerEvents: 'none',
           zIndex: 9998, width: 36, height: 36, borderRadius: '50%',
           border: '1px solid rgba(255,255,255,0.4)',
-          transform: 'translate(-50%,-50%)',
-          transition: 'width 0.3s, height 0.3s, border-color 0.2s',
+          marginLeft: '-18px', marginTop: '-18px',
+          transition: 'width 0.3s, height 0.3s, border-color 0.2s, margin 0.3s',
           x: followerX, y: followerY,
         }}
       />
