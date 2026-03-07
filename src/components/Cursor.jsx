@@ -24,15 +24,29 @@ export default function Cursor() {
       return
     }
 
-    const move = (e) => {
-      cursorX.set(e.clientX)
-      cursorY.set(e.clientY)
-      // Hide cursor inside work cards (cursor-follow VIEW badge takes over)
-      const overCard = !!e.target.closest('.work-card')
+    let lastX = -100, lastY = -100
+
+    const setCardVisibility = (overCard) => {
       if (dotRef.current)  dotRef.current.style.opacity  = overCard ? '0' : '1'
       if (ringRef.current) ringRef.current.style.opacity = overCard ? '0' : '1'
     }
+
+    const move = (e) => {
+      lastX = e.clientX
+      lastY = e.clientY
+      cursorX.set(e.clientX)
+      cursorY.set(e.clientY)
+      // Hide cursor inside work cards (cursor-follow VIEW badge takes over)
+      setCardVisibility(!!e.target.closest('.work-card'))
+    }
     window.addEventListener('mousemove', move)
+
+    // Recheck card overlap on scroll — cursor may exit card without mouse moving
+    const onScroll = () => {
+      const el = document.elementFromPoint(lastX, lastY)
+      setCardVisibility(!!el?.closest('.work-card'))
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
 
     const hoverEls = document.querySelectorAll('a, button, [data-cursor]')
     hoverEls.forEach(el => {
@@ -64,7 +78,10 @@ export default function Cursor() {
       })
     })
 
-    return () => window.removeEventListener('mousemove', move)
+    return () => {
+      window.removeEventListener('mousemove', move)
+      window.removeEventListener('scroll', onScroll)
+    }
   }, [cursorX, cursorY])
 
   // Don't render on touch/mobile
