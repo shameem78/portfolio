@@ -102,8 +102,8 @@ export default function About() {
         </div>
       </div>
 
-      {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid var(--border)', marginTop: 80 }} className="stats-row">
+      {/* Stats — 2×2 grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', borderTop: '1px solid var(--border)', borderLeft: '1px solid var(--border)', marginTop: 80 }} className="stats-row">
         {stats.map(({ num, suffix, label }, i) => (
           <motion.div
             key={label}
@@ -113,8 +113,9 @@ export default function About() {
             transition={{ delay: i * 0.1, duration: 0.6 }}
             className="stat-item"
             style={{
-              padding: '48px 0 48px 40px',
-              borderRight: i < stats.length - 1 ? '1px solid var(--border)' : 'none',
+              padding: '56px 40px',
+              borderRight: '1px solid var(--border)',
+              borderBottom: '1px solid var(--border)',
               display: 'flex', flexDirection: 'column', gap: 8,
             }}
           >
@@ -148,11 +149,9 @@ export default function About() {
       <style>{`
         @media (max-width: 900px) {
           .about-inner { grid-template-columns: 1fr !important; gap: 40px !important; }
-          .stats-row { grid-template-columns: repeat(2,1fr) !important; }
         }
         @media (max-width: 600px) {
-          .stats-row { grid-template-columns: 1fr 1fr !important; }
-          .stat-item { padding: 28px 0 28px 16px !important; }
+          .stat-item { padding: 36px 20px !important; }
         }
       `}</style>
     </section>
