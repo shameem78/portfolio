@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const links = ['About', 'Services', 'Work', 'Contact']
+const links = ['Work', 'Services', 'About', 'Contact']
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)

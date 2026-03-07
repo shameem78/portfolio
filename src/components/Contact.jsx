@@ -41,7 +41,7 @@ function MagneticButton({ children, href, style }) {
 export default function Contact() {
   return (
     <section id="contact" style={{ padding: '100px 40px', borderTop: '1px solid var(--border)' }}>
-      <SectionLabel left="© CONTACT コンタクト" center="(WDX® — 05)" right="GET IN TOUCH" />
+      <SectionLabel left="© CONTACT コンタクト" center="(WDX® — 06)" right="GET IN TOUCH" />
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start', marginBottom: 80 }} className="contact-inner">
         <FadeUp>

@@ -38,7 +38,7 @@ function Stars() {
 export default function Testimonials() {
   return (
     <section id="testimonials" style={{ padding: '100px 40px', borderTop: '1px solid var(--border)' }}>
-      <SectionLabel left="© TESTIMONIALS 評価" center="(WDX® — 04)" right="CLIENT FEEDBACK" />
+      <SectionLabel left="© TESTIMONIALS 評価" center="(WDX® — 05)" right="CLIENT FEEDBACK" />
 
       <FadeUp>
         <h2 style={{
