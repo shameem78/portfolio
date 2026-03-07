@@ -181,16 +181,19 @@ export default function Nav() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 + links.length * 0.06 }}
                 style={{
-                  marginTop: 16, background: 'none', border: '1px solid rgba(255,255,255,0.15)',
-                  borderRadius: '50%', width: 48, height: 48, cursor: 'none',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'var(--grey)',
+                  marginTop: 24, background: 'none', border: 'none',
+                  cursor: 'none', padding: 8,
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0,
                 }}
               >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <line x1="1" y1="1" x2="15" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                  <line x1="15" y1="1" x2="1" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
+                <span style={{
+                  display: 'block', width: 28, height: 1.5, background: 'var(--white)',
+                  transform: 'translateY(0.75px) rotate(45deg)',
+                }} />
+                <span style={{
+                  display: 'block', width: 28, height: 1.5, background: 'var(--white)',
+                  transform: 'translateY(-0.75px) rotate(-45deg)',
+                }} />
               </motion.button>
             </motion.div>
           )}
