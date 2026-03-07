@@ -4,13 +4,13 @@ import SectionLabel from './SectionLabel'
 import FadeUp from './FadeUp'
 
 const projects = [
-  { num: '01', title: 'Mobile App Redesign',    tag: 'UX / UI',     large: true,  bg: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%)' },
-  { num: '02', title: 'AI Dashboard Interface', tag: 'AI RESEARCH',  large: false, bg: 'linear-gradient(135deg,#0d0d0d 0%,#1a0a2e 40%,#2d1b69 100%)' },
-  { num: '03', title: 'E-Commerce Store',        tag: 'E-COMMERCE',  large: false, bg: 'linear-gradient(135deg,#0a1628 0%,#1e3a5f 50%,#2196f3 100%)' },
-  { num: '04', title: 'UX Research Study',       tag: 'UX RESEARCH', large: true,  bg: 'linear-gradient(135deg,#111 0%,#1a1a1a 40%,#2a2a2a 100%)' },
+  { num: '01', title: 'Creative Agency Website', tag: 'UX DESIGN',   large: true,  img: '/project01.png', bg: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%)' },
+  { num: '02', title: 'AI Dashboard Interface',  tag: 'AI RESEARCH',  large: false, bg: 'linear-gradient(135deg,#0d0d0d 0%,#1a0a2e 40%,#2d1b69 100%)' },
+  { num: '03', title: 'E-Commerce Store',         tag: 'E-COMMERCE',  large: false, bg: 'linear-gradient(135deg,#0a1628 0%,#1e3a5f 50%,#2196f3 100%)' },
+  { num: '04', title: 'UX Research Study',        tag: 'UX RESEARCH', large: true,  bg: 'linear-gradient(135deg,#111 0%,#1a1a1a 40%,#2a2a2a 100%)' },
 ]
 
-function WorkCard({ num, title, tag, large, bg }) {
+function WorkCard({ num, title, tag, large, bg, img }) {
   const [hovered, setHovered] = useState(false)
   const scrollToContact = (e) => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }) }
 
@@ -33,7 +33,13 @@ function WorkCard({ num, title, tag, large, bg }) {
         <motion.div
           animate={{ scale: hovered ? 1.04 : 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          style={{ width: '100%', height: '100%', background: bg }}
+          style={{
+            width: '100%', height: '100%',
+            ...(img
+              ? { backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+              : { background: bg }
+            ),
+          }}
         />
 
         {/* Tag badge */}
