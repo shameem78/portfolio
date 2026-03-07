@@ -89,10 +89,11 @@ export default function About() {
               whileHover={{ background: 'var(--white)', color: 'var(--black)', scale: 1.03 }}
               onClick={e => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }) }}
               style={{
-                display: 'inline-block', border: '1px solid var(--white)', borderRadius: 999,
+                display: 'inline-block', border: '1px solid var(--accent)', borderRadius: 999,
                 padding: '14px 32px', fontSize: 12, fontWeight: 600, letterSpacing: '0.15em',
                 textTransform: 'uppercase', color: 'var(--white)', marginTop: 36,
                 cursor: 'none', transition: 'background 0.3s, color 0.3s',
+                background: 'var(--accent)',
               }}
             >
               CONTACT

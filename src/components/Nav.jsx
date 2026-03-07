@@ -6,11 +6,31 @@ const links = ['About', 'Services', 'Work', 'Contact']
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [active, setActive] = useState('home')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Track active section with IntersectionObserver
+  useEffect(() => {
+    const sectionIds = ['home', 'about', 'services', 'work', 'contact']
+    const observers = []
+
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id)
+      if (!el) return
+      const observer = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActive(id) },
+        { threshold: 0.25, rootMargin: '-80px 0px 0px 0px' }
+      )
+      observer.observe(el)
+      observers.push(observer)
+    })
+
+    return () => observers.forEach(o => o.disconnect())
   }, [])
 
   const handleLink = (e, href) => {
@@ -44,25 +64,41 @@ export default function Nav() {
       }}
     >
       {/* Logo */}
-      <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em' }}>
+      <a
+        href="#home"
+        onClick={e => handleLink(e, '#home')}
+        aria-label="Shameem – back to top"
+        style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em', cursor: 'none' }}
+      >
         Shameem®
-      </span>
+      </a>
 
       {/* Desktop links */}
       <ul style={{ display: 'flex', gap: 28, justifyContent: 'center', listStyle: 'none' }}>
-        {links.map(link => (
-          <li key={link}>
-            <a
-              href={`#${link.toLowerCase()}`}
-              onClick={(e) => handleLink(e, `#${link.toLowerCase()}`)}
-              style={{ fontSize: 13, color: 'var(--grey)', letterSpacing: '0.03em', transition: 'color 0.2s', cursor: 'none' }}
-              onMouseEnter={e => e.target.style.color = 'var(--white)'}
-              onMouseLeave={e => e.target.style.color = 'var(--grey)'}
-            >
-              {link}
-            </a>
-          </li>
-        ))}
+        {links.map(link => {
+          const isActive = active === link.toLowerCase()
+          return (
+            <li key={link}>
+              <a
+                href={`#${link.toLowerCase()}`}
+                onClick={(e) => handleLink(e, `#${link.toLowerCase()}`)}
+                style={{
+                  fontSize: 13,
+                  color: isActive ? 'var(--white)' : 'var(--grey)',
+                  letterSpacing: '0.03em',
+                  transition: 'color 0.2s',
+                  cursor: 'none',
+                  paddingBottom: 3,
+                  borderBottom: isActive ? '1px solid var(--accent)' : '1px solid transparent',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'var(--white)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = isActive ? 'var(--white)' : 'var(--grey)' }}
+              >
+                {link}
+              </a>
+            </li>
+          )
+        })}
       </ul>
 
       {/* Meta */}
@@ -78,7 +114,7 @@ export default function Nav() {
       {/* Mobile toggle */}
       <button
         onClick={toggleMenu}
-        aria-label="Toggle menu"
+        aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
         style={{
           display: 'none', background: 'none', border: 'none',
@@ -124,7 +160,9 @@ export default function Nav() {
                 transition={{ delay: 0.1 + i * 0.06 }}
                 style={{
                   fontFamily: 'var(--font-display)', fontSize: 36, fontWeight: 800,
-                  letterSpacing: '-0.03em', color: 'var(--white)', cursor: 'none',
+                  letterSpacing: '-0.03em',
+                  color: active === link.toLowerCase() ? 'var(--accent)' : 'var(--white)',
+                  cursor: 'none',
                 }}
               >
                 {link}

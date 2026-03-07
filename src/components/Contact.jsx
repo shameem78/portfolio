@@ -23,12 +23,13 @@ function MagneticButton({ children, href, style }) {
       href={href}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      whileHover={{ background: 'var(--white)', color: 'var(--black)' }}
+      whileHover={{ background: 'var(--white)', color: 'var(--black)', borderColor: 'var(--white)' }}
       style={{
-        display: 'inline-block', border: '1px solid var(--white)', borderRadius: 999,
+        display: 'inline-block', border: '1px solid var(--accent)', borderRadius: 999,
         padding: '18px 48px', fontSize: 14, fontWeight: 600, letterSpacing: '0.15em',
         textTransform: 'uppercase', color: 'var(--white)', cursor: 'none',
         transition: 'background 0.3s, color 0.3s',
+        background: 'var(--accent)',
         ...style,
       }}
     >
