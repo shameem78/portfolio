@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import SectionLabel from './SectionLabel'
 import FadeUp from './FadeUp'
@@ -22,6 +23,77 @@ const testimonials = [
     initials: 'JW',
   },
 ]
+
+function SpotlightCard({ children, animationProps }) {
+  const cardRef = useRef(null)
+  const [pos, setPos]         = useState({ x: 0, y: 0 })
+  const [visible, setVisible] = useState(false)
+
+  const handleMouseMove = (e) => {
+    const rect = cardRef.current?.getBoundingClientRect()
+    if (!rect) return
+    setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top })
+  }
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setVisible(true)}
+      onMouseLeave={() => setVisible(false)}
+      {...animationProps}
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        border: '1px solid var(--border)',
+        borderRadius: 16,
+        padding: '36px 32px',
+        display: 'flex',
+        flexDirection: 'column',
+        background: 'rgba(255,255,255,0.02)',
+        cursor: 'none',
+      }}
+    >
+      {/* Spotlight radial glow */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          borderRadius: 16,
+          pointerEvents: 'none',
+          opacity: visible ? 1 : 0,
+          transition: 'opacity 0.4s ease',
+          background: `radial-gradient(400px circle at ${pos.x}px ${pos.y}px,
+            rgba(79, 110, 247, 0.13),
+            transparent 65%)`,
+        }}
+      />
+      {/* Border spotlight — separate layer so it brightens the border edge */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          borderRadius: 16,
+          pointerEvents: 'none',
+          opacity: visible ? 1 : 0,
+          transition: 'opacity 0.4s ease',
+          background: `radial-gradient(300px circle at ${pos.x}px ${pos.y}px,
+            rgba(79, 110, 247, 0.25),
+            transparent 60%)`,
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+          padding: '1px',
+        }}
+      />
+
+      {/* Card content sits above the glow layers */}
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', flex: 1 }}>
+        {children}
+      </div>
+    </motion.div>
+  )
+}
 
 function Stars() {
   return (
@@ -53,22 +125,13 @@ export default function Testimonials() {
 
       <div className="testimonials-grid">
         {testimonials.map(({ quote, name, role, initials }, i) => (
-          <motion.div
+          <SpotlightCard
             key={name}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.7, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-            whileHover={{ y: -6, transition: { duration: 0.25 } }}
-            style={{
-              border: '1px solid var(--border)',
-              borderRadius: 16,
-              padding: '36px 32px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 0,
-              background: 'rgba(248,250,252,0.02)',
-              cursor: 'none',
+            animationProps={{
+              initial:    { opacity: 0, y: 30 },
+              whileInView:{ opacity: 1, y: 0 },
+              viewport:   { once: true, margin: '-40px' },
+              transition: { duration: 0.7, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] },
             }}
           >
             <Stars />
@@ -98,7 +161,7 @@ export default function Testimonials() {
                 <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--grey)', marginTop: 2 }}>{role}</div>
               </div>
             </div>
-          </motion.div>
+          </SpotlightCard>
         ))}
       </div>
 
