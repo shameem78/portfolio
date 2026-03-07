@@ -5,8 +5,8 @@ import FadeUp from './FadeUp'
 
 const projects = [
   { num: '01', title: 'Creative Agency Website', tag: 'UX DESIGN',   large: true,  img: '/project01.png', bg: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%)' },
-  { num: '02', title: 'AI Dashboard Interface',  tag: 'AI RESEARCH',  large: false, bg: 'linear-gradient(135deg,#0d0d0d 0%,#1a0a2e 40%,#2d1b69 100%)' },
-  { num: '03', title: 'E-Commerce Store',         tag: 'E-COMMERCE',  large: false, bg: 'linear-gradient(135deg,#0a1628 0%,#1e3a5f 50%,#2196f3 100%)' },
+  { num: '02', title: 'AI Dashboard Interface',  tag: 'AI RESEARCH',  large: false, img: '/project02.webp', bg: 'linear-gradient(135deg,#0d0d0d 0%,#1a0a2e 40%,#2d1b69 100%)' },
+  { num: '03', title: 'E-Commerce Store',         tag: 'E-COMMERCE',  large: false, img: '/project03.webp', bg: 'linear-gradient(135deg,#0a1628 0%,#1e3a5f 50%,#2196f3 100%)' },
   { num: '04', title: 'UX Research Study',        tag: 'UX RESEARCH', large: true,  img: '/project04.png', bg: 'linear-gradient(135deg,#111 0%,#1a1a1a 40%,#2a2a2a 100%)' },
 ]
 
