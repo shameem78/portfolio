@@ -41,7 +41,7 @@ export default function Hero() {
   return (
     <section id="home" ref={ref} style={{ paddingTop: 80, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Top row */}
-      <div style={{ padding: '60px 40px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flex: 1 }}>
+      <div className="hero-top-row" style={{ padding: '60px 40px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flex: 1 }}>
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -89,6 +89,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.6 }}
+        className="hero-bottom-bar"
         style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           padding: '18px 40px', borderTop: '1px solid var(--border)',
@@ -121,7 +122,9 @@ export default function Hero() {
           50% { opacity: 1; }
         }
         @media (max-width: 600px) {
-          .hero-name { font-size: clamp(72px, 22vw, 120px) !important; }
+          .hero-name { font-size: clamp(64px, 20vw, 110px) !important; white-space: nowrap; }
+          .hero-top-row { padding: 32px 20px 24px !important; flex-wrap: wrap; gap: 20px; }
+          .hero-bottom-bar { flex-direction: column !important; align-items: flex-start !important; gap: 6px !important; padding: 14px 20px !important; }
         }
       `}</style>
     </section>

@@ -115,6 +115,10 @@ export default function Work() {
           .work-heading-wrap { grid-template-columns: 1fr !important; }
           .work-grid { grid-template-columns: 1fr !important; }
         }
+        @media (max-width: 600px) {
+          .work-heading-wrap { margin-bottom: 40px !important; }
+          .work-grid { gap: 16px !important; }
+        }
       `}</style>
     </section>
   )

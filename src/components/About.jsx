@@ -110,6 +110,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1, duration: 0.6 }}
+            className="stat-item"
             style={{
               padding: '48px 0 48px 40px',
               borderRight: i < stats.length - 1 ? '1px solid var(--border)' : 'none',
@@ -150,6 +151,7 @@ export default function About() {
         }
         @media (max-width: 600px) {
           .stats-row { grid-template-columns: 1fr 1fr !important; }
+          .stat-item { padding: 28px 0 28px 16px !important; }
         }
       `}</style>
     </section>

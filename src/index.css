@@ -66,3 +66,19 @@ a:focus-visible, button:focus-visible {
   body { cursor: auto; }
   html { scroll-behavior: auto; }
 }
+
+/* ── Mobile Global ───────────────────────────────── */
+@media (max-width: 900px) {
+  html, body { overflow-x: hidden; max-width: 100%; }
+  #about, #services, #work, #process, #contact {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+@media (max-width: 600px) {
+  #about, #services, #work, #process, #contact {
+    padding: 60px 20px !important;
+  }
+  /* Fix cursors on touch */
+  a, button, [style*="cursor: none"] { cursor: pointer !important; }
+}

@@ -74,6 +74,9 @@ export default function Services() {
         @media (max-width: 900px) {
           .services-grid { grid-template-columns: 1fr !important; }
         }
+        @media (max-width: 600px) {
+          .services-grid > div { padding: 32px 20px !important; }
+        }
       `}</style>
     </section>
   )

@@ -59,6 +59,7 @@ export default function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
+              className="contact-detail-row"
               style={{
                 padding: '24px 0', borderBottom: '1px solid var(--border)',
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
@@ -74,12 +75,13 @@ export default function Contact() {
                   target={href.startsWith('http') ? '_blank' : undefined}
                   rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   whileHover={{ color: 'var(--accent)' }}
+                  className="contact-detail-value"
                   style={{ fontSize: 14, color: 'var(--white)', cursor: 'none', transition: 'color 0.2s' }}
                 >
                   {value}
                 </motion.a>
               ) : (
-                <span style={{ fontSize: 14, color: 'var(--white)' }}>{value}</span>
+                <span className="contact-detail-value" style={{ fontSize: 14, color: 'var(--white)' }}>{value}</span>
               )}
             </motion.div>
           ))}
@@ -93,6 +95,14 @@ export default function Contact() {
       <style>{`
         @media (max-width: 900px) {
           .contact-inner { grid-template-columns: 1fr !important; gap: 40px !important; }
+        }
+        @media (max-width: 600px) {
+          .contact-inner h2 { font-size: clamp(36px, 12vw, 80px) !important; }
+          .contact-detail-row { padding: 16px 0 !important; flex-wrap: wrap; gap: 4px; }
+          .contact-detail-value { font-size: 12px !important; word-break: break-all; text-align: right; }
+        }
+        @media (pointer: coarse) {
+          .contact-inner a { cursor: pointer !important; }
         }
       `}</style>
     </section>
