@@ -1,7 +1,6 @@
 import BlobCursor    from './components/BlobCursor'
 import Nav           from './components/Nav'
 import Hero          from './components/Hero'
-import FluidGlass    from './components/FluidGlass'
 import Work          from './components/Work'
 import Ticker        from './components/Ticker'
 import Services      from './components/Services'
@@ -19,18 +18,6 @@ export default function App() {
       <Nav />
       <main>
         <Hero />
-        <div style={{ height: '600px', position: 'relative', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          <FluidGlass
-            mode="lens"
-            lensProps={{
-              scale: 0.25,
-              ior: 1.15,
-              thickness: 5,
-              chromaticAberration: 0.1,
-              anisotropy: 0.01,
-            }}
-          />
-        </div>
         <Work />
         <Ticker />
         <Services />
