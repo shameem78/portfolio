@@ -128,7 +128,7 @@ export default function Hero() {
         .hero-gradient-bg {
           position: absolute;
           inset: 0;
-          background: linear-gradient(-45deg, #0F172A, #1E293B, #0F172A, #161040, #0F172A, #1a2744);
+          background: linear-gradient(-45deg, #080808, #111118, #080808, #0d0820, #080808, #0a0f1a);
           background-size: 400% 400%;
           animation: gradientShift 14s ease infinite;
           z-index: 0;

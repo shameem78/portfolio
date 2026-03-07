@@ -2,12 +2,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --black: #0F172A;
-  --white: #F1F5F9;
-  --accent: #6366F1;
+  --black: #080808;
+  --white: #f0ede8;
+  --accent: #4F6EF7;
   --highlight: #22C55E;
-  --grey: #94A3B8;
-  --border: rgba(248,250,252,0.08);
+  --grey: #888;
+  --border: rgba(255,255,255,0.1);
   --font-display: 'Satoshi', sans-serif;
   --font-body: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
