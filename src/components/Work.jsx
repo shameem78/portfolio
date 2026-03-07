@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import SectionLabel from './SectionLabel'
 import FadeUp from './FadeUp'
@@ -19,12 +19,27 @@ function WorkCard({ num, title, tag, bg, img, align, width }) {
   const y = useSpring(rawY, { stiffness: 180, damping: 20, mass: 0.5 })
   const scrollToContact = (e) => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }) }
 
+  const lastMouse = useRef({ x: 0, y: 0 })
+
   const handleMouseMove = (e) => {
+    lastMouse.current = { x: e.clientX, y: e.clientY }
     const rect = cardRef.current?.getBoundingClientRect()
     if (!rect) return
     rawX.set(e.clientX - rect.left)
     rawY.set(e.clientY - rect.top)
   }
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!hovered) return
+      const rect = cardRef.current?.getBoundingClientRect()
+      if (!rect) return
+      rawX.set(lastMouse.current.x - rect.left)
+      rawY.set(lastMouse.current.y - rect.top)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [hovered, rawX, rawY])
 
   return (
     <motion.a
