@@ -27,6 +27,10 @@ export default function Cursor() {
     const move = (e) => {
       cursorX.set(e.clientX)
       cursorY.set(e.clientY)
+      // Hide cursor inside work cards (cursor-follow VIEW badge takes over)
+      const overCard = !!e.target.closest('.work-card')
+      if (dotRef.current)  dotRef.current.style.opacity  = overCard ? '0' : '1'
+      if (ringRef.current) ringRef.current.style.opacity = overCard ? '0' : '1'
     }
     window.addEventListener('mousemove', move)
 
