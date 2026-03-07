@@ -1,7 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
 export default function Cursor() {
+  // Detect touch device — all hooks must come before any early return
+  const [isTouch, setIsTouch] = useState(false)
+
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
 
@@ -15,6 +18,12 @@ export default function Cursor() {
   const ringRef = useRef(null)
 
   useEffect(() => {
+    // Hide on touch / mobile — no mouse to track
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      setIsTouch(true)
+      return
+    }
+
     const move = (e) => {
       cursorX.set(e.clientX)
       cursorY.set(e.clientY)
@@ -25,7 +34,6 @@ export default function Cursor() {
     hoverEls.forEach(el => {
       el.addEventListener('mouseenter', () => {
         if (!dotRef.current || !ringRef.current) return
-        // Change size/colour — do NOT touch transform (it's owned by Framer Motion)
         dotRef.current.style.background  = 'var(--accent)'
         dotRef.current.style.width       = '14px'
         dotRef.current.style.height      = '14px'
@@ -54,6 +62,9 @@ export default function Cursor() {
 
     return () => window.removeEventListener('mousemove', move)
   }, [cursorX, cursorY])
+
+  // Don't render on touch/mobile
+  if (isTouch) return null
 
   return (
     <>
