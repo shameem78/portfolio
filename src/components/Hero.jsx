@@ -39,9 +39,25 @@ export default function Hero() {
   const tagline = useScramble('Designing Experiences,\nResearching Intelligence,\nBuilding Commerce.', 1000)
 
   return (
-    <section id="home" ref={ref} style={{ paddingTop: 80, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <section id="home" ref={ref} style={{ paddingTop: 80, minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
+      {/* Animated gradient background */}
+      <div className="hero-gradient-bg" aria-hidden="true" />
+      {/* Radial glow — top right */}
+      <div aria-hidden="true" style={{
+        position: 'absolute', top: '-10%', right: '-5%',
+        width: '55vw', height: '55vw', borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%)',
+        pointerEvents: 'none', zIndex: 0,
+      }} />
+      {/* Radial glow — bottom left */}
+      <div aria-hidden="true" style={{
+        position: 'absolute', bottom: '5%', left: '-5%',
+        width: '40vw', height: '40vw', borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(34,197,94,0.08) 0%, transparent 70%)',
+        pointerEvents: 'none', zIndex: 0,
+      }} />
       {/* Top row */}
-      <div className="hero-top-row" style={{ padding: '60px 40px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flex: 1 }}>
+      <div className="hero-top-row" style={{ padding: '60px 40px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flex: 1, position: 'relative', zIndex: 1 }}>
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -69,10 +85,10 @@ export default function Hero() {
       </div>
 
       {/* Divider */}
-      <div style={{ height: 1, background: 'var(--border)' }} />
+      <div style={{ height: 1, background: 'var(--border)', position: 'relative', zIndex: 1 }} />
 
       {/* Giant name */}
-      <div style={{ overflow: 'hidden', padding: '0 20px' }}>
+      <div style={{ overflow: 'hidden', padding: '0 20px', position: 'relative', zIndex: 1 }}>
         <motion.h1
           style={{ y, opacity }}
           initial={{ y: '120%' }}
@@ -93,6 +109,7 @@ export default function Hero() {
         style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           padding: '18px 40px', borderTop: '1px solid var(--border)',
+          position: 'relative', zIndex: 1,
         }}
       >
         <span style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--grey)', animation: 'pulse 2s ease-in-out infinite' }}>
@@ -108,6 +125,19 @@ export default function Hero() {
       </motion.div>
 
       <style>{`
+        .hero-gradient-bg {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(-45deg, #0F172A, #1E293B, #0F172A, #161040, #0F172A, #1a2744);
+          background-size: 400% 400%;
+          animation: gradientShift 14s ease infinite;
+          z-index: 0;
+        }
+        @keyframes gradientShift {
+          0%   { background-position: 0% 50% }
+          50%  { background-position: 100% 50% }
+          100% { background-position: 0% 50% }
+        }
         .hero-name {
           font-family: var(--font-display);
           font-size: clamp(100px, 18vw, 260px);

@@ -2,19 +2,20 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --black: #080808;
-  --white: #f0ede8;
-  --accent: #4F6EF7;
-  --grey: #888;
-  --border: rgba(255,255,255,0.1);
-  --font-display: 'Syne', sans-serif;
+  --black: #0F172A;
+  --white: #F1F5F9;
+  --accent: #6366F1;
+  --highlight: #22C55E;
+  --grey: #94A3B8;
+  --border: rgba(248,250,252,0.08);
+  --font-display: 'Satoshi', sans-serif;
   --font-body: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; } /* Lenis handles smooth scrolling */
 
 body {
   background: var(--black);
@@ -70,13 +71,13 @@ a:focus-visible, button:focus-visible {
 /* ── Mobile Global ───────────────────────────────── */
 @media (max-width: 900px) {
   html, body { overflow-x: hidden; max-width: 100%; }
-  #about, #services, #work, #process, #contact {
+  #about, #services, #work, #process, #testimonials, #contact {
     padding-left: 24px !important;
     padding-right: 24px !important;
   }
 }
 @media (max-width: 600px) {
-  #about, #services, #work, #process, #contact {
+  #about, #services, #work, #process, #testimonials, #contact {
     padding: 60px 20px !important;
   }
   /* Hero: remove full-screen height on mobile */

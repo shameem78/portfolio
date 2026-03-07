@@ -4,13 +4,41 @@ import SectionLabel from './SectionLabel'
 import FadeUp from './FadeUp'
 
 const projects = [
-  { num: '01', title: 'Creative Agency Website', tag: 'UX DESIGN',   img: '/project01.png',  bg: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%)', align: 'left',  width: '62%' },
-  { num: '02', title: 'AI Dashboard Interface',  tag: 'AI RESEARCH', img: '/project02.webp', bg: 'linear-gradient(135deg,#0d0d0d 0%,#1a0a2e 40%,#2d1b69 100%)', align: 'right', width: '52%' },
-  { num: '03', title: 'E-Commerce Store',         tag: 'E-COMMERCE',  img: '/project03.webp', bg: 'linear-gradient(135deg,#0a1628 0%,#1e3a5f 50%,#2196f3 100%)', align: 'left',  width: '56%' },
-  { num: '04', title: 'UX Research Study',        tag: 'UX RESEARCH', img: '/project04.png',  bg: 'linear-gradient(135deg,#111 0%,#1a1a1a 40%,#2a2a2a 100%)',  align: 'right', width: '58%' },
+  {
+    num: '01', title: 'Creative Agency Website', tag: 'UX DESIGN',
+    img: '/project01.png', bg: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%)',
+    align: 'left', width: '62%',
+    problem: 'Outdated site failing to convert visitors into leads',
+    tools: ['Figma', 'Framer', 'GSAP'],
+    result: '+64% conversion rate in 3 months',
+  },
+  {
+    num: '02', title: 'AI Dashboard Interface', tag: 'AI RESEARCH',
+    img: '/project02.webp', bg: 'linear-gradient(135deg,#0d0d0d 0%,#1a0a2e 40%,#2d1b69 100%)',
+    align: 'right', width: '52%',
+    problem: 'Complex AI data with no clear visual hierarchy',
+    tools: ['React', 'Figma', 'Claude AI'],
+    result: '40% reduction in cognitive load for users',
+  },
+  {
+    num: '03', title: 'E-Commerce Store', tag: 'E-COMMERCE',
+    img: '/project03.webp', bg: 'linear-gradient(135deg,#0a1628 0%,#1e3a5f 50%,#2196f3 100%)',
+    align: 'left', width: '56%',
+    problem: 'High cart abandonment and poor mobile experience',
+    tools: ['Shopify', 'Figma', 'Webflow'],
+    result: '2× revenue growth in first quarter',
+  },
+  {
+    num: '04', title: 'UX Research Study', tag: 'UX RESEARCH',
+    img: '/project04.png', bg: 'linear-gradient(135deg,#111 0%,#1a1a1a 40%,#2a2a2a 100%)',
+    align: 'right', width: '58%',
+    problem: 'No structured user insights to guide product decisions',
+    tools: ['Notion', 'Figma', 'Maze'],
+    result: 'Delivered 12 validated design principles',
+  },
 ]
 
-function WorkCard({ num, title, tag, bg, img, align, width }) {
+function WorkCard({ num, title, tag, bg, img, align, width, problem, tools, result }) {
   const [hovered, setHovered] = useState(false)
   const cardRef = useRef(null)
   const rawX = useMotionValue(0)
@@ -127,14 +155,42 @@ function WorkCard({ num, title, tag, bg, img, align, width }) {
       </div>
 
       {/* Meta */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 0 10px' }}>
-        <motion.span
-          animate={{ color: hovered ? 'var(--accent)' : 'var(--white)' }}
-          style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, letterSpacing: '-0.02em' }}
-        >
-          {title}
-        </motion.span>
-        <span style={{ fontSize: 11, color: 'var(--grey)', letterSpacing: '0.1em' }}>({num})</span>
+      <div style={{ padding: '14px 0 4px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <motion.span
+            animate={{ color: hovered ? 'var(--accent)' : 'var(--white)' }}
+            style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, letterSpacing: '-0.02em' }}
+          >
+            {title}
+          </motion.span>
+          <span style={{ fontSize: 11, color: 'var(--grey)', letterSpacing: '0.1em' }}>({num})</span>
+        </div>
+
+        {/* Case study strip */}
+        <div className="case-study-strip" style={{ display: 'flex', gap: 24, flexWrap: 'wrap', borderTop: '1px solid var(--border)', paddingTop: 12 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 160 }}>
+            <span style={{ fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--grey)' }}>Problem</span>
+            <span style={{ fontSize: 12, color: 'var(--white)', opacity: 0.75 }}>{problem}</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <span style={{ fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--grey)' }}>Tools</span>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+              {tools.map(t => (
+                <span key={t} style={{
+                  fontSize: 10, padding: '3px 10px', borderRadius: 999,
+                  border: '1px solid var(--border)', color: 'var(--grey)',
+                  letterSpacing: '0.06em',
+                }}>
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <span style={{ fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--grey)' }}>Result</span>
+            <span style={{ fontSize: 12, color: 'var(--highlight)', fontWeight: 500 }}>{result}</span>
+          </div>
+        </div>
       </div>
     </motion.a>
   )

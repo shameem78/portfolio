@@ -7,16 +7,19 @@ const services = [
     num: '01', title: 'UX / UI\nDesign',
     desc: 'End-to-end product design — from wireframes and user flows to polished, pixel-perfect interfaces that convert and delight.',
     items: ['User Research & Personas', 'Wireframing & Prototyping', 'Design Systems', 'Usability Testing'],
+    accentColor: 'var(--accent)',
   },
   {
     num: '02', title: 'AI\nResearch',
     desc: 'Exploring the frontier of artificial intelligence — studying how intelligent systems can enhance human lives and design decisions.',
     items: ['LLM Applications', 'AI-Assisted Design', 'Prompt Engineering', 'Research & Insights'],
+    accentColor: 'var(--highlight)',
   },
   {
     num: '03', title: 'Dropshipping\n& E-Commerce',
     desc: 'Building and scaling profitable online stores — from product sourcing and store design to conversion optimization and growth.',
     items: ['Store Design & Branding', 'Product Research', 'Conversion Optimization', 'Marketing Funnels'],
+    accentColor: 'var(--accent)',
   },
 ]
 
@@ -33,7 +36,7 @@ export default function Services() {
       </FadeUp>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 1, border: '1px solid var(--border)' }} className="services-grid">
-        {services.map(({ num, title, desc, items }, i) => (
+        {services.map(({ num, title, desc, items, accentColor }, i) => (
           <motion.div
             key={num}
             initial={{ opacity: 0, y: 30 }}
@@ -48,7 +51,7 @@ export default function Services() {
               initial={{ scaleX: 0 }}
               whileHover={{ scaleX: 1 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'var(--accent)', transformOrigin: 'left' }}
+              style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: accentColor, transformOrigin: 'left' }}
             />
 
             <div style={{ fontSize: 11, letterSpacing: '0.15em', color: 'var(--grey)', marginBottom: 32 }}>{num}</div>
