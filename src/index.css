@@ -79,6 +79,8 @@ a:focus-visible, button:focus-visible {
   #about, #services, #work, #process, #contact {
     padding: 60px 20px !important;
   }
+  /* Hero: remove full-screen height on mobile */
+  #home { min-height: auto !important; }
   /* Fix cursors on touch */
   a, button, [style*="cursor: none"] { cursor: pointer !important; }
 }

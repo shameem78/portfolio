@@ -98,7 +98,7 @@ export default function Hero() {
         <span style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--grey)', animation: 'pulse 2s ease-in-out infinite' }}>
           Scroll to explore ↓
         </span>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--grey)' }}>
+        <div className="hero-roles" style={{ display: 'flex', gap: 12, alignItems: 'center', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--grey)' }}>
           <span>UX/UI Designer</span>
           <span style={{ color: 'rgba(255,255,255,0.2)' }}>·</span>
           <span>Digital Nomad</span>
@@ -122,9 +122,12 @@ export default function Hero() {
           50% { opacity: 1; }
         }
         @media (max-width: 600px) {
-          .hero-name { font-size: clamp(64px, 20vw, 110px) !important; white-space: nowrap; }
+          .hero-name { font-size: clamp(36px, 10.9vw, 80px) !important; white-space: nowrap; }
           .hero-top-row { padding: 32px 20px 24px !important; flex-wrap: wrap; gap: 20px; }
           .hero-bottom-bar { flex-direction: column !important; align-items: flex-start !important; gap: 6px !important; padding: 14px 20px !important; }
+          .hero-roles { font-size: 10px !important; letter-spacing: 0.06em !important; gap: 8px !important; }
+          .hero-roles span { white-space: nowrap; }
+          .hero-top-row { flex: 0 !important; padding-bottom: 32px !important; }
         }
       `}</style>
     </section>
