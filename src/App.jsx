@@ -1,4 +1,4 @@
-import Cursor    from './components/Cursor'
+import BlobCursor from './components/BlobCursor'
 import Nav       from './components/Nav'
 import Hero      from './components/Hero'
 import About     from './components/About'
@@ -13,7 +13,7 @@ export default function App() {
   return (
     <>
       <a href="#home" className="skip-link">Skip to content</a>
-      <Cursor />
+      <BlobCursor />
       <Nav />
       <main>
         <Hero />
