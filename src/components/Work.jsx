@@ -4,13 +4,13 @@ import SectionLabel from './SectionLabel'
 import FadeUp from './FadeUp'
 
 const projects = [
-  { num: '01', title: 'Creative Agency Website', tag: 'UX DESIGN',   large: true,  img: '/project01.png', bg: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%)' },
-  { num: '02', title: 'AI Dashboard Interface',  tag: 'AI RESEARCH',  large: false, img: '/project02.webp', bg: 'linear-gradient(135deg,#0d0d0d 0%,#1a0a2e 40%,#2d1b69 100%)' },
-  { num: '03', title: 'E-Commerce Store',         tag: 'E-COMMERCE',  large: false, img: '/project03.webp', bg: 'linear-gradient(135deg,#0a1628 0%,#1e3a5f 50%,#2196f3 100%)' },
-  { num: '04', title: 'UX Research Study',        tag: 'UX RESEARCH', large: true,  img: '/project04.png', bg: 'linear-gradient(135deg,#111 0%,#1a1a1a 40%,#2a2a2a 100%)' },
+  { num: '01', title: 'Creative Agency Website', tag: 'UX DESIGN',   img: '/project01.png',  bg: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%)', align: 'left',  width: '62%' },
+  { num: '02', title: 'AI Dashboard Interface',  tag: 'AI RESEARCH', img: '/project02.webp', bg: 'linear-gradient(135deg,#0d0d0d 0%,#1a0a2e 40%,#2d1b69 100%)', align: 'right', width: '52%' },
+  { num: '03', title: 'E-Commerce Store',         tag: 'E-COMMERCE',  img: '/project03.webp', bg: 'linear-gradient(135deg,#0a1628 0%,#1e3a5f 50%,#2196f3 100%)', align: 'left',  width: '56%' },
+  { num: '04', title: 'UX Research Study',        tag: 'UX RESEARCH', img: '/project04.png',  bg: 'linear-gradient(135deg,#111 0%,#1a1a1a 40%,#2a2a2a 100%)',  align: 'right', width: '58%' },
 ]
 
-function WorkCard({ num, title, tag, large, bg, img }) {
+function WorkCard({ num, title, tag, bg, img, align, width }) {
   const [hovered, setHovered] = useState(false)
   const scrollToContact = (e) => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }) }
 
@@ -20,60 +20,75 @@ function WorkCard({ num, title, tag, large, bg, img }) {
       onClick={scrollToContact}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="work-card"
       style={{
-        display: 'block', position: 'relative', overflow: 'hidden', cursor: 'none',
-        gridColumn: large ? '1 / -1' : 'auto',
+        display: 'block', cursor: 'none',
+        alignSelf: align === 'left' ? 'flex-start' : 'flex-end',
+        width,
       }}
     >
+      {/* Image */}
       <div style={{
-        width: '100%', aspectRatio: large ? '21/9' : '4/3',
+        width: '100%', aspectRatio: '4/3',
         background: bg, position: 'relative', overflow: 'hidden',
+        borderRadius: 16,
       }}>
         <motion.div
-          animate={{ scale: hovered ? 1.04 : 1 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          animate={{ scale: hovered ? 1.06 : 1 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            width: '100%', height: '100%',
-            ...(img
-              ? { backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center' }
-              : { background: bg }
-            ),
+            width: '100%', height: '100%', borderRadius: 16,
+            backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center',
           }}
         />
+
+        {/* Dark overlay on hover */}
+        <motion.div
+          animate={{ opacity: hovered ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            position: 'absolute', inset: 0, borderRadius: 16,
+            background: 'rgba(0,0,0,0.45)', zIndex: 1,
+          }}
+        />
+
+        {/* Centered VIEW badge */}
+        <motion.div
+          animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1 : 0.85 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            position: 'absolute', top: '50%', left: '50%',
+            transform: 'translate(-50%,-50%)',
+            background: 'var(--white)', color: 'var(--black)',
+            fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 800,
+            letterSpacing: '0.08em', textTransform: 'uppercase',
+            padding: '14px 28px', borderRadius: 999, zIndex: 2,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          VIEW →
+        </motion.div>
 
         {/* Tag badge */}
         <div style={{
           position: 'absolute', top: 16, left: 16, fontSize: 10,
           letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--grey)',
-          background: 'rgba(0,0,0,0.5)', padding: '5px 12px', borderRadius: 999,
-          border: '1px solid var(--border)', backdropFilter: 'blur(8px)', zIndex: 2,
+          background: 'rgba(0,0,0,0.55)', padding: '5px 12px', borderRadius: 999,
+          border: '1px solid var(--border)', backdropFilter: 'blur(8px)', zIndex: 3,
         }}>
           {tag}
         </div>
-
-        {/* Hover label */}
-        <motion.div
-          animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 8 }}
-          transition={{ duration: 0.3 }}
-          style={{
-            position: 'absolute', bottom: 20, right: 20, fontSize: 12,
-            letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--white)',
-            background: 'rgba(0,0,0,0.6)', padding: '8px 16px', borderRadius: 999,
-            border: '1px solid rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)', zIndex: 3,
-          }}
-        >
-          View Project →
-        </motion.div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 0 8px', borderBottom: '1px solid var(--border)' }}>
+      {/* Meta */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 0 10px' }}>
         <motion.span
           animate={{ color: hovered ? 'var(--accent)' : 'var(--white)' }}
-          style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, letterSpacing: '-0.02em' }}
+          style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, letterSpacing: '-0.02em' }}
         >
           {title}
         </motion.span>
@@ -116,19 +131,19 @@ export default function Work() {
         </FadeUp>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 2 }} className="work-grid">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 60 }} className="work-grid">
         {projects.map(p => <WorkCard key={p.num} {...p} />)}
       </div>
 
       <style>{`
         @media (max-width: 900px) {
           .work-heading-wrap { grid-template-columns: 1fr !important; }
-          .work-grid { grid-template-columns: 1fr !important; }
-          .work-grid > * { grid-column: 1 / -1 !important; }
+          .work-card { width: 80% !important; }
         }
         @media (max-width: 600px) {
           .work-heading-wrap { margin-bottom: 40px !important; }
-          .work-grid { gap: 16px !important; }
+          .work-card { width: 100% !important; align-self: stretch !important; }
+          .work-grid { gap: 32px !important; }
         }
       `}</style>
     </section>
