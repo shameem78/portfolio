@@ -45,7 +45,16 @@ function WorkCard({ num, title, tag, bg, img, align, width }) {
     <motion.a
       href="#contact"
       onClick={scrollToContact}
-      onMouseEnter={() => setHovered(true)}
+      onMouseEnter={(e) => {
+        setHovered(true)
+        const rect = cardRef.current?.getBoundingClientRect()
+        if (rect) {
+          const px = e.clientX - rect.left
+          const py = e.clientY - rect.top
+          rawX.jump(px); rawY.jump(py)
+          x.jump(px);    y.jump(py)
+        }
+      }}
       onMouseLeave={() => setHovered(false)}
       onMouseMove={handleMouseMove}
       initial={{ opacity: 0, y: 40 }}
