@@ -7,7 +7,7 @@ const projects = [
   {
     num: '01', title: 'Creative Agency Website', tag: 'UX DESIGN',
     img: '/project01.png', bg: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%)',
-    align: 'left', width: '62%',
+    align: 'left', width: '48%',
     problem: 'Outdated site failing to convert visitors into leads',
     tools: ['Figma', 'Framer', 'GSAP'],
     result: '+64% conversion rate in 3 months',
@@ -15,7 +15,7 @@ const projects = [
   {
     num: '02', title: 'AI Dashboard Interface', tag: 'AI RESEARCH',
     img: '/project02.webp', bg: 'linear-gradient(135deg,#0d0d0d 0%,#1a0a2e 40%,#2d1b69 100%)',
-    align: 'right', width: '52%',
+    align: 'right', width: '42%',
     problem: 'Complex AI data with no clear visual hierarchy',
     tools: ['React', 'Figma', 'Claude AI'],
     result: '40% reduction in cognitive load for users',
@@ -23,7 +23,7 @@ const projects = [
   {
     num: '03', title: 'E-Commerce Store', tag: 'E-COMMERCE',
     img: '/project03.webp', bg: 'linear-gradient(135deg,#0a1628 0%,#1e3a5f 50%,#2196f3 100%)',
-    align: 'left', width: '56%',
+    align: 'left', width: '44%',
     problem: 'High cart abandonment and poor mobile experience',
     tools: ['Shopify', 'Figma', 'Webflow'],
     result: '2× revenue growth in first quarter',
@@ -31,7 +31,7 @@ const projects = [
   {
     num: '04', title: 'UX Research Study', tag: 'UX RESEARCH',
     img: '/project04.png', bg: 'linear-gradient(135deg,#111 0%,#1a1a1a 40%,#2a2a2a 100%)',
-    align: 'right', width: '58%',
+    align: 'right', width: '46%',
     problem: 'No structured user insights to guide product decisions',
     tools: ['Notion', 'Figma', 'Maze'],
     result: 'Delivered 12 validated design principles',
@@ -100,7 +100,7 @@ function WorkCard({ num, title, tag, bg, img, align, width, problem, tools, resu
       <div
         ref={cardRef}
         style={{
-          width: '100%', aspectRatio: '4/3',
+          width: '100%', aspectRatio: '16/9',
           background: bg, position: 'relative', overflow: 'hidden',
           borderRadius: 16,
         }}
