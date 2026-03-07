@@ -24,10 +24,13 @@ function WorkCard({ num, title, tag, large, bg, img }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      style={{ display: 'block', position: 'relative', overflow: 'hidden', cursor: 'none' }}
+      style={{
+        display: 'block', position: 'relative', overflow: 'hidden', cursor: 'none',
+        gridColumn: large ? '1 / -1' : 'auto',
+      }}
     >
       <div style={{
-        width: '100%', aspectRatio: large ? '16/11' : '16/10',
+        width: '100%', aspectRatio: large ? '21/9' : '4/3',
         background: bg, position: 'relative', overflow: 'hidden',
       }}>
         <motion.div
@@ -121,6 +124,7 @@ export default function Work() {
         @media (max-width: 900px) {
           .work-heading-wrap { grid-template-columns: 1fr !important; }
           .work-grid { grid-template-columns: 1fr !important; }
+          .work-grid > * { grid-column: 1 / -1 !important; }
         }
         @media (max-width: 600px) {
           .work-heading-wrap { margin-bottom: 40px !important; }
