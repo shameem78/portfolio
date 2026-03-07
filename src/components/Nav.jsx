@@ -172,6 +172,26 @@ export default function Nav() {
                   {link}
                 </motion.a>
               ))}
+
+              {/* Close button */}
+              <motion.button
+                onClick={toggleMenu}
+                aria-label="Close menu"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + links.length * 0.06 }}
+                style={{
+                  marginTop: 16, background: 'none', border: '1px solid rgba(255,255,255,0.15)',
+                  borderRadius: '50%', width: 48, height: 48, cursor: 'none',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: 'var(--grey)',
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <line x1="1" y1="1" x2="15" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  <line x1="15" y1="1" x2="1" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+              </motion.button>
             </motion.div>
           )}
         </AnimatePresence>,
