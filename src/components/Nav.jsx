@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const links = ['About', 'Services', 'Work', 'Contact']
@@ -135,42 +136,47 @@ export default function Nav() {
         }} />
       </button>
 
-      {/* Mobile overlay */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ y: '-100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '-100%' }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-              background: 'rgba(8,8,8,0.98)', backdropFilter: 'blur(16px)',
-              display: 'flex', flexDirection: 'column', justifyContent: 'center',
-              alignItems: 'center', gap: 32, zIndex: 99,
-            }}
-          >
-            {links.map((link, i) => (
-              <motion.a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                onClick={(e) => handleLink(e, `#${link.toLowerCase()}`)}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 + i * 0.06 }}
-                style={{
-                  fontFamily: 'var(--font-display)', fontSize: 36, fontWeight: 800,
-                  letterSpacing: '-0.03em',
-                  color: active === link.toLowerCase() ? 'var(--accent)' : 'var(--white)',
-                  cursor: 'none',
-                }}
-              >
-                {link}
-              </motion.a>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Mobile overlay — rendered via portal so Framer Motion's transform on <nav>
+          doesn't create a stacking context that clips position:fixed children */}
+      {createPortal(
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ y: '-100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '-100%' }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                background: 'rgba(8,8,8,0.98)', backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                alignItems: 'center', gap: 32, zIndex: 200,
+              }}
+            >
+              {links.map((link, i) => (
+                <motion.a
+                  key={link}
+                  href={`#${link.toLowerCase()}`}
+                  onClick={(e) => handleLink(e, `#${link.toLowerCase()}`)}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + i * 0.06 }}
+                  style={{
+                    fontFamily: 'var(--font-display)', fontSize: 36, fontWeight: 800,
+                    letterSpacing: '-0.03em',
+                    color: active === link.toLowerCase() ? 'var(--accent)' : 'var(--white)',
+                    cursor: 'none',
+                  }}
+                >
+                  {link}
+                </motion.a>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
 
       <style>{`
         @media (max-width: 900px) {
