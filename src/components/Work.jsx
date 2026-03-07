@@ -72,7 +72,7 @@ function WorkCard({ num, title, tag, bg, img, align, width }) {
           }}
         />
 
-        {/* Cursor-follow VIEW badge */}
+        {/* Cursor-follow VIEW badge — mix-blend-mode:difference inverts image beneath */}
         <motion.div
           animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1 : 0.7 }}
           transition={{ opacity: { duration: 0.2 }, scale: { duration: 0.2 } }}
@@ -85,6 +85,7 @@ function WorkCard({ num, title, tag, bg, img, align, width }) {
             letterSpacing: '0.08em', textTransform: 'uppercase',
             padding: '14px 28px', borderRadius: 999, zIndex: 4,
             whiteSpace: 'nowrap', pointerEvents: 'none',
+            mixBlendMode: 'difference',
           }}
         >
           VIEW →
