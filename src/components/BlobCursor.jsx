@@ -25,6 +25,7 @@ export default function BlobCursor({
   zIndex                = 9999,
 }) {
   const [isTouch, setIsTouch] = useState(false)
+  const [filterUrl, setFilterUrl] = useState(`url(#${filterId})`)
   const blobsRef    = useRef([])
   const wrapperRef  = useRef(null)
   const lastPos     = useRef({ x: -200, y: -200 })
@@ -52,6 +53,18 @@ export default function BlobCursor({
       })
     })
   }, [fastDuration, slowDuration, fastEase, slowEase, setVisibility])
+
+  // Fix: SVG filter url(#id) breaks when URL contains a hash fragment (Chromium bug).
+  // Keep the filter reference absolute so hash-based navigation doesn't break it.
+  useEffect(() => {
+    const update = () => {
+      const base = window.location.href.split('#')[0]
+      setFilterUrl(`url(${base}#${filterId})`)
+    }
+    update()
+    window.addEventListener('hashchange', update)
+    return () => window.removeEventListener('hashchange', update)
+  }, [filterId])
 
   useEffect(() => {
     if (window.matchMedia('(pointer: coarse)').matches) {
@@ -101,7 +114,7 @@ export default function BlobCursor({
 
       <div
         className="blob-main"
-        style={{ filter: useFilter ? `url(#${filterId})` : undefined }}
+        style={{ filter: useFilter ? filterUrl : undefined }}
       >
         {Array.from({ length: trailCount }).map((_, i) => (
           <div
