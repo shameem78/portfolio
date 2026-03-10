@@ -1,3 +1,4 @@
+import { ReactLenis } from 'lenis/react'
 import BlobCursor    from './components/BlobCursor'
 import Nav           from './components/Nav'
 import Hero          from './components/Hero'
@@ -12,7 +13,7 @@ import Footer        from './components/Footer'
 
 export default function App() {
   return (
-    <>
+    <ReactLenis root options={{ lerp: 0.1, smoothWheel: true }}>
       <a href="#home" className="skip-link">Skip to content</a>
       <BlobCursor />
       <Nav />
@@ -27,6 +28,6 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
-    </>
+    </ReactLenis>
   )
 }
