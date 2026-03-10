@@ -50,13 +50,28 @@ export default function About() {
         {/* Photo */}
         <FadeUp>
           <div style={{
-            width: '100%', aspectRatio: '3/4', background: '#111',
-            border: '1px solid var(--border)', display: 'flex',
-            alignItems: 'center', justifyContent: 'center',
-            color: 'var(--grey)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase',
-            maxWidth: 420,
+            width: '100%', aspectRatio: '3/4', maxWidth: 420,
+            position: 'relative', overflow: 'hidden',
+            border: '1px solid var(--border)', borderRadius: 4,
+            background: 'radial-gradient(ellipse at 30% 40%, rgba(79,110,247,0.18) 0%, transparent 65%), radial-gradient(ellipse at 80% 80%, rgba(34,197,94,0.08) 0%, transparent 55%), #0d0d0d',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            Your Photo
+            {/* Grid lines */}
+            <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '48px 48px', opacity: 0.5 }} />
+            {/* Corner marks */}
+            {[
+              { top:16, left:16,  borderTop:'1px solid rgba(255,255,255,0.3)', borderLeft:'1px solid rgba(255,255,255,0.3)' },
+              { top:16, right:16, borderTop:'1px solid rgba(255,255,255,0.3)', borderRight:'1px solid rgba(255,255,255,0.3)' },
+              { bottom:16, left:16,  borderBottom:'1px solid rgba(255,255,255,0.3)', borderLeft:'1px solid rgba(255,255,255,0.3)' },
+              { bottom:16, right:16, borderBottom:'1px solid rgba(255,255,255,0.3)', borderRight:'1px solid rgba(255,255,255,0.3)' },
+            ].map((s,i) => (
+              <div key={i} style={{ position:'absolute', width:20, height:20, ...s }} />
+            ))}
+            {/* Monogram */}
+            <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(80px,18vw,140px)', fontWeight: 800, letterSpacing: '-0.06em', lineHeight: 1, color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.15)' }}>S</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, fontWeight: 600, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.2)', marginTop: 8 }}>Shameem · K</div>
+            </div>
           </div>
         </FadeUp>
 
