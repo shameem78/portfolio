@@ -49,7 +49,7 @@ export default function About() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }} className="about-inner">
         {/* Photo */}
         <FadeUp>
-          <div style={{
+          <div className="about-photo-card" style={{
             width: '100%', aspectRatio: '3/4', maxWidth: 420,
             position: 'relative', overflow: 'hidden',
             border: '1px solid var(--border)', borderRadius: 4,

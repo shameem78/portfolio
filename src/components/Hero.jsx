@@ -88,7 +88,7 @@ export default function Hero() {
       <div style={{ height: 1, background: 'var(--border)', position: 'relative', zIndex: 1 }} />
 
       {/* Giant name */}
-      <div style={{ overflow: 'hidden', padding: '0 20px', position: 'relative', zIndex: 1 }}>
+      <div className="hero-name-wrap" style={{ overflow: 'hidden', padding: '0 20px', position: 'relative', zIndex: 1 }}>
         <motion.h1
           style={{ y, opacity }}
           initial={{ y: '120%' }}

@@ -1,4 +1,5 @@
 import { ReactLenis } from 'lenis/react'
+import GsapSetup     from './components/GsapSetup'
 import BlobCursor    from './components/BlobCursor'
 import Nav           from './components/Nav'
 import Hero          from './components/Hero'
@@ -14,6 +15,7 @@ import Footer        from './components/Footer'
 export default function App() {
   return (
     <ReactLenis root options={{ lerp: 0.1, smoothWheel: true }}>
+      <GsapSetup />
       <a href="#home" className="skip-link">Skip to content</a>
       <BlobCursor />
       <Nav />
