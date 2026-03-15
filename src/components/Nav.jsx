@@ -1,214 +1,196 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 
-const links = ['Work', 'Services', 'About', 'Contact']
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
-export default function Nav() {
+const links = [
+  { id: 'work', label: 'Work' },
+  { id: 'services', label: 'Services' },
+  { id: 'about', label: 'About' },
+  { id: 'contact', label: 'Contact' },
+]
+
+export default function Nav({ panels }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
-  const [active, setActive] = useState('home')
+  const [activePanel, setActivePanel] = useState(0)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60)
+    const handler = (e) => setActivePanel(e.detail.index)
+    window.addEventListener('panelchange', handler)
+    return () => window.removeEventListener('panelchange', handler)
+  }, [])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Track active section with IntersectionObserver
-  useEffect(() => {
-    const sectionIds = ['home', 'about', 'services', 'work', 'contact']
-    const observers = []
-
-    sectionIds.forEach(id => {
-      const el = document.getElementById(id)
-      if (!el) return
-      const observer = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(id) },
-        { threshold: 0.25, rootMargin: '-80px 0px 0px 0px' }
-      )
-      observer.observe(el)
-      observers.push(observer)
-    })
-
-    return () => observers.forEach(o => o.disconnect())
-  }, [])
-
-  const handleLink = (e, href) => {
-    e.preventDefault()
+  const scrollToPanel = useCallback((panelId) => {
     setOpen(false)
-    document.body.style.overflow = ''
-    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
-  }
+    const panelIndex = panels.findIndex((p) => p.id === panelId)
+    if (panelIndex < 0) return
 
-  const toggleMenu = () => {
-    const next = !open
-    setOpen(next)
-    document.body.style.overflow = next ? 'hidden' : ''
-  }
+    const st = ScrollTrigger.getById('horizontal-main')
+    if (st) {
+      const targetProgress = panelIndex / (panels.length - 1)
+      const targetScroll = st.start + targetProgress * (st.end - st.start)
+      gsap.to(window, { scrollTo: { y: targetScroll }, duration: 1.2, ease: 'power2.inOut' })
+    } else {
+      // Mobile fallback
+      document.getElementById(panelId)?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [panels])
+
+  // Keyboard navigation
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault()
+        const next = Math.min(activePanel + 1, panels.length - 1)
+        scrollToPanel(panels[next].id)
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault()
+        const prev = Math.max(activePanel - 1, 0)
+        scrollToPanel(panels[prev].id)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [activePanel, panels, scrollToPanel])
+
+  const activePanelId = panels[activePanel]?.id
 
   return (
-    <motion.nav
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
-        alignItems: 'center',
-        padding: '20px 40px',
-        borderBottom: '1px solid var(--border)',
-        background: scrolled ? 'rgba(8,8,8,0.97)' : 'rgba(8,8,8,0.9)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        transition: 'background 0.3s',
-      }}
-    >
-      {/* Logo */}
-      <a
-        href="#home"
-        onClick={e => handleLink(e, '#home')}
-        aria-label="Shameem – back to top"
-        style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em', cursor: 'none' }}
-      >
-        Shameem®
-      </a>
+    <>
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
+        padding: '0 48px', height: 64,
+        display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center',
+        background: scrolled ? 'rgba(10,10,15,0.92)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(16px)' : 'none',
+        borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
+        transition: 'background 0.35s, backdrop-filter 0.35s, border-color 0.35s',
+      }}>
+        {/* Logo */}
+        <button
+          onClick={() => scrollToPanel('hero')}
+          style={{
+            background: 'none', border: 'none', cursor: 'none',
+            fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 400,
+            letterSpacing: '0.06em', color: 'var(--text)', textAlign: 'left',
+          }}
+        >
+          SHAMEEM<span style={{ color: 'var(--magenta)' }}>.</span>
+        </button>
 
-      {/* Desktop links */}
-      <ul style={{ display: 'flex', gap: 28, justifyContent: 'center', listStyle: 'none' }}>
-        {links.map(link => {
-          const isActive = active === link.toLowerCase()
-          return (
-            <li key={link}>
-              <a
-                href={`#${link.toLowerCase()}`}
-                onClick={(e) => handleLink(e, `#${link.toLowerCase()}`)}
+        {/* Center links — desktop */}
+        <div style={{ display: 'flex', gap: 36 }} className="nav-links-desktop">
+          {links.map(({ id, label }) => {
+            const isActive = activePanelId === id
+            return (
+              <button
+                key={id}
+                onClick={() => scrollToPanel(id)}
                 style={{
-                  fontSize: 13,
-                  color: isActive ? 'var(--white)' : 'var(--grey)',
-                  letterSpacing: '0.03em',
-                  transition: 'color 0.2s',
-                  cursor: 'none',
-                  paddingBottom: 3,
-                  borderBottom: isActive ? '1px solid var(--accent)' : '1px solid transparent',
+                  background: 'none', border: 'none', cursor: 'none',
+                  fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: isActive ? 'var(--magenta)' : 'var(--text-muted)',
+                  textShadow: isActive ? '0 0 10px var(--magenta-glow)' : 'none',
+                  transition: 'color 0.3s, text-shadow 0.3s',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.color = 'var(--white)' }}
-                onMouseLeave={e => { e.currentTarget.style.color = isActive ? 'var(--white)' : 'var(--grey)' }}
               >
-                {link}
-              </a>
-            </li>
-          )
-        })}
-      </ul>
+                {label}
+              </button>
+            )
+          })}
+        </div>
 
-      {/* Meta */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 2 }}>
-        <span style={{ fontSize: 12, color: 'var(--grey)' }}>
-          Based in <strong style={{ color: 'var(--white)' }}>India 🇮🇳</strong>
-        </span>
-        <span style={{ fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--grey)' }}>
-          UX/UI · AI Research · E-Commerce
-        </span>
-      </div>
+        {/* Right — Hire Me + Burger */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 20 }}>
+          <button
+            onClick={() => scrollToPanel('contact')}
+            className="nav-hire-btn"
+            style={{
+              fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700,
+              letterSpacing: '0.12em', textTransform: 'uppercase',
+              padding: '8px 20px', borderRadius: 4,
+              border: '1px solid var(--magenta)', color: 'var(--magenta)',
+              background: 'transparent', cursor: 'none',
+              transition: 'background 0.3s, color 0.3s, box-shadow 0.3s',
+            }}
+            onMouseEnter={(e) => { e.target.style.background = 'var(--magenta)'; e.target.style.color = 'var(--bg)'; e.target.style.boxShadow = '0 0 20px var(--magenta-glow)' }}
+            onMouseLeave={(e) => { e.target.style.background = 'transparent'; e.target.style.color = 'var(--magenta)'; e.target.style.boxShadow = 'none' }}
+          >
+            Hire Me
+          </button>
 
-      {/* Mobile toggle */}
-      <button
-        onClick={toggleMenu}
-        aria-label={open ? 'Close menu' : 'Open menu'}
-        aria-expanded={open}
-        style={{
-          display: 'none', background: 'none', border: 'none',
-          cursor: 'pointer', padding: 8, zIndex: 200, position: 'relative',
-        }}
-        className="nav-toggle"
-      >
-        <span style={{
-          display: 'block', width: 24, height: 1, background: 'var(--white)',
-          transition: 'transform 0.3s',
-          transform: open ? 'translateY(4px) rotate(45deg)' : 'none',
-          marginBottom: 6,
-        }} />
-        <span style={{
-          display: 'block', width: 24, height: 1, background: 'var(--white)',
-          transition: 'transform 0.3s',
-          transform: open ? 'translateY(-3px) rotate(-45deg)' : 'none',
-        }} />
-      </button>
+          {/* Burger — mobile */}
+          <button
+            className="nav-burger"
+            onClick={() => setOpen(!open)}
+            aria-label="Menu"
+            style={{
+              display: 'none', background: 'none', border: 'none', cursor: 'none',
+              width: 32, height: 24, position: 'relative',
+            }}
+          >
+            <span style={{ position: 'absolute', left: 0, width: 32, height: 2, background: 'var(--text)', borderRadius: 1, top: open ? 11 : 2, transform: open ? 'rotate(45deg)' : 'none', transition: 'all 0.3s' }} />
+            <span style={{ position: 'absolute', left: 0, width: 32, height: 2, background: 'var(--text)', borderRadius: 1, top: 11, opacity: open ? 0 : 1, transition: 'opacity 0.2s' }} />
+            <span style={{ position: 'absolute', left: 0, width: 32, height: 2, background: 'var(--text)', borderRadius: 1, top: open ? 11 : 20, transform: open ? 'rotate(-45deg)' : 'none', transition: 'all 0.3s' }} />
+          </button>
+        </div>
+      </nav>
 
-      {/* Mobile overlay — rendered via portal so Framer Motion's transform on <nav>
-          doesn't create a stacking context that clips position:fixed children */}
-      {createPortal(
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={{ y: '-100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '-100%' }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-                background: 'rgba(8,8,8,0.98)', backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                alignItems: 'center', gap: 32, zIndex: 200,
-              }}
-            >
-              {links.map((link, i) => (
-                <motion.a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
-                  onClick={(e) => handleLink(e, `#${link.toLowerCase()}`)}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + i * 0.06 }}
-                  style={{
-                    fontFamily: 'var(--font-display)', fontSize: 36, fontWeight: 800,
-                    letterSpacing: '-0.03em',
-                    color: active === link.toLowerCase() ? 'var(--accent)' : 'var(--white)',
-                    cursor: 'none',
-                  }}
-                >
-                  {link}
-                </motion.a>
-              ))}
-
-              {/* Close button */}
+      {/* Mobile menu overlay */}
+      <AnimatePresence>
+        {open && createPortal(
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'fixed', inset: 0, zIndex: 199,
+              background: 'rgba(10,10,15,0.97)', backdropFilter: 'blur(20px)',
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
+              justifyContent: 'center', gap: 32,
+            }}
+          >
+            {links.map(({ id, label }, i) => (
               <motion.button
-                onClick={toggleMenu}
-                aria-label="Close menu"
+                key={id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 + links.length * 0.06 }}
+                transition={{ delay: i * 0.08 }}
+                onClick={() => scrollToPanel(id)}
                 style={{
-                  marginTop: 24, background: 'none', border: 'none',
-                  cursor: 'none', padding: 8,
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0,
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  fontFamily: 'var(--font-display)', fontSize: 48,
+                  color: activePanelId === id ? 'var(--magenta)' : 'var(--text)',
+                  letterSpacing: '0.05em',
                 }}
               >
-                <span style={{
-                  display: 'block', width: 28, height: 1.5, background: 'var(--white)',
-                  transform: 'translateY(0.75px) rotate(45deg)',
-                }} />
-                <span style={{
-                  display: 'block', width: 28, height: 1.5, background: 'var(--white)',
-                  transform: 'translateY(-0.75px) rotate(-45deg)',
-                }} />
+                {label}
               </motion.button>
-            </motion.div>
-          )}
-        </AnimatePresence>,
-        document.body
-      )}
+            ))}
+          </motion.div>,
+          document.body
+        )}
+      </AnimatePresence>
 
       <style>{`
-        @media (max-width: 900px) {
-          nav { grid-template-columns: 1fr auto !important; padding: 16px 24px !important; }
-          nav ul { display: none !important; }
-          nav > div:nth-child(3) { display: none !important; }
-          .nav-toggle { display: flex !important; flex-direction: column; }
+        @media (max-width: 768px) {
+          .nav-links-desktop { display: none !important; }
+          .nav-hire-btn { display: none !important; }
+          .nav-burger { display: block !important; }
         }
       `}</style>
-    </motion.nav>
+    </>
   )
 }

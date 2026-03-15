@@ -1,35 +1,32 @@
 import { ReactLenis } from 'lenis/react'
-import GsapSetup     from './components/GsapSetup'
-import BlobCursor    from './components/BlobCursor'
-import Nav           from './components/Nav'
-import Hero          from './components/Hero'
-import Work          from './components/Work'
-import Ticker        from './components/Ticker'
-import Services      from './components/Services'
-import Process       from './components/Process'
-import Testimonials  from './components/Testimonials'
-import About         from './components/About'
-import Contact       from './components/Contact'
-import Footer        from './components/Footer'
+import BlobCursor from './components/BlobCursor'
+import Nav from './components/Nav'
+import PanelIndicator from './components/PanelIndicator'
+import HorizontalScroll from './components/HorizontalScroll'
+import HeroPanel from './components/HeroPanel'
+import Work from './components/Work'
+import Services from './components/Services'
+import About from './components/About'
+import Contact from './components/Contact'
+
+const panels = [
+  { id: 'hero', label: 'Home', Component: HeroPanel },
+  { id: 'work', label: 'Work', Component: Work },
+  { id: 'services', label: 'Services', Component: Services },
+  { id: 'about', label: 'About', Component: About },
+  { id: 'contact', label: 'Contact', Component: Contact },
+]
 
 export default function App() {
   return (
-    <ReactLenis root options={{ lerp: 0.1, smoothWheel: true }}>
-      <GsapSetup />
-      <a href="#home" className="skip-link">Skip to content</a>
+    <ReactLenis root options={{ lerp: 0.08, smoothWheel: true }}>
+      <a href="#hero" className="skip-link">Skip to content</a>
       <BlobCursor />
-      <Nav />
+      <Nav panels={panels} />
+      <PanelIndicator panels={panels} />
       <main>
-        <Hero />
-        <Work />
-        <Ticker />
-        <Services />
-        <Process />
-        <Testimonials />
-        <About />
-        <Contact />
+        <HorizontalScroll panels={panels} />
       </main>
-      <Footer />
     </ReactLenis>
   )
 }

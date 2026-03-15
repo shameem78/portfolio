@@ -2,28 +2,51 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --black: #080808;
-  --white: #f0ede8;
-  --accent: #4F6EF7;
-  --highlight: #22C55E;
-  --grey: #888;
-  --border: rgba(255,255,255,0.1);
-  --font-display: 'Satoshi', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --bg:            #0a0a0f;
+  --bg-2:          #0e0e18;
+  --bg-card:       rgba(255,255,255,0.025);
+  --bg-card-hover: rgba(255,255,255,0.05);
+  --text:          #f0f0f5;
+  --text-muted:    #7a7a90;
+  --text-dim:      #3a3a52;
+  --magenta:       #ff2d78;
+  --magenta-glow:  rgba(255,45,120,0.15);
+  --lime:          #a3ff12;
+  --lime-glow:     rgba(163,255,18,0.15);
+  --violet:        #8b5cf6;
+  --violet-glow:   rgba(139,92,246,0.2);
+  --accent:        #ff2d78;
+  --accent-glow:   rgba(255,45,120,0.15);
+  --border:        rgba(255,255,255,0.06);
+  --border-accent: rgba(255,45,120,0.3);
+  --font-display:  'Bebas Neue', sans-serif;
+  --font-body:     'Space Grotesk', sans-serif;
+  --font-mono:     'JetBrains Mono', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-html { scroll-behavior: auto; } /* Lenis handles smooth scrolling */
+html { scroll-behavior: auto; }
 
 body {
-  background: var(--black);
-  color: var(--white);
+  background: var(--bg);
+  color: var(--text);
   font-family: var(--font-body);
   font-weight: 400;
   overflow-x: hidden;
   cursor: none;
+}
+
+/* ── Noise texture ──────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.02;
+  pointer-events: none;
+  z-index: 9997;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -31,32 +54,25 @@ ul { list-style: none; padding: 0; margin: 0; }
 button { font-family: inherit; }
 
 /* ── Scrollbar ──────────────────────────────────── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--black); }
-::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--magenta); border-radius: 2px; }
 
 /* ── Skip link ──────────────────────────────────── */
 .skip-link {
-  position: absolute;
-  top: -100%;
-  left: 16px;
-  z-index: 10000;
-  padding: 12px 24px;
-  background: var(--accent);
-  color: var(--white);
-  font-size: 14px;
-  border-radius: 4px;
-  font-weight: 600;
+  position: absolute; top: -100%; left: 16px;
+  z-index: 10000; padding: 12px 24px;
+  background: var(--magenta); color: var(--bg);
+  font-size: 14px; border-radius: 4px; font-weight: 700;
 }
 .skip-link:focus { top: 16px; }
 
 /* ── Focus ──────────────────────────────────────── */
 a:focus-visible, button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 4px;
+  outline: 1px solid var(--magenta); outline-offset: 4px;
 }
 
-/* ── Touch devices ──────────────────────────────── */
+/* ── Touch ──────────────────────────────────────── */
 @media (pointer: coarse) {
   body { cursor: auto; }
   a, button { cursor: pointer; }
@@ -65,23 +81,46 @@ a:focus-visible, button:focus-visible {
 /* ── Reduced motion ─────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   body { cursor: auto; }
-  html { scroll-behavior: auto; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
-/* ── Mobile Global ───────────────────────────────── */
+/* ── Horizontal Scroll ──────────────────────────── */
+.hs-pin-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hs-track {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100vh;
+  will-change: transform;
+}
+
+.hs-panel {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Stacking ───────────────────────────────────── */
+main { position: relative; z-index: 1; }
+
+/* ── Mobile ─────────────────────────────────────── */
+.mobile-section {
+  min-height: 100vh;
+  width: 100%;
+  padding: 80px 24px;
+}
+
+@media (max-width: 768px) {
+  body { cursor: auto; }
+  a, button { cursor: pointer; }
+}
+
 @media (max-width: 900px) {
   html, body { overflow-x: hidden; max-width: 100%; }
-  #about, #services, #work, #process, #testimonials, #contact {
-    padding-left: 24px !important;
-    padding-right: 24px !important;
-  }
-}
-@media (max-width: 600px) {
-  #about, #services, #work, #process, #testimonials, #contact {
-    padding: 60px 20px !important;
-  }
-  /* Hero: remove full-screen height on mobile */
-  #home { min-height: auto !important; }
-  /* Fix cursors on touch */
-  a, button, [style*="cursor: none"] { cursor: pointer !important; }
 }
