@@ -195,7 +195,7 @@ export default function Contact() {
 
       <style>{`
         @media (max-width: 600px) {
-          .contact-panel { height: auto !important; min-height: 100vh; }
+          .contact-panel { height: auto !important; min-height: auto; padding-top: 24px !important; padding-bottom: 24px !important; }
           .testi-row { flex-direction: column !important; }
           .contact-cta { flex-direction: column !important; align-items: flex-start !important; gap: 24px; }
           .contact-btn-wrap { width: 100%; text-align: center; }

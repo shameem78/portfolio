@@ -189,9 +189,9 @@ export default function About() {
 
       <style>{`
         @media (max-width: 600px) {
-          .about-panel { height: auto !important; min-height: 100vh; }
+          .about-panel { height: auto !important; min-height: auto; padding-top: 24px !important; padding-bottom: 24px !important; }
           .about-main { flex-direction: column !important; }
-          .about-card { flex: none !important; width: 100% !important; height: 200px !important; }
+          .about-card { flex: none !important; width: 100% !important; height: 180px !important; }
           .about-stats { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>

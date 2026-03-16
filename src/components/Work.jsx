@@ -27,7 +27,7 @@ function ProjectCard({ project, index }) {
         transition: 'border-color 0.3s',
       }}
     >
-      <div style={{
+      <div className="card-img" style={{
         aspectRatio: '16/10', background: 'var(--bg-2)', position: 'relative', overflow: 'hidden',
       }}>
         <span style={{
@@ -113,7 +113,8 @@ export default function Work() {
       <style>{`
         @media (max-width: 600px) {
           .work-grid { grid-template-columns: 1fr !important; max-height: none !important; }
-          .work-panel { height: auto !important; min-height: 100vh; }
+          .work-panel { height: auto !important; min-height: auto; padding-top: 24px !important; padding-bottom: 24px !important; }
+          .card-img { aspect-ratio: 16/6 !important; }
         }
       `}</style>
     </div>

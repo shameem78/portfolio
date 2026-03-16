@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react'
-import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -148,7 +147,7 @@ export default function Nav({ panels }) {
 
       {/* Mobile menu overlay */}
       <AnimatePresence>
-        {open && createPortal(
+        {open && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -177,13 +176,13 @@ export default function Nav({ panels }) {
                 {label}
               </motion.button>
             ))}
-          </motion.div>,
-          document.body
+          </motion.div>
         )}
       </AnimatePresence>
 
       <style>{`
         @media (max-width: 768px) {
+          nav { grid-template-columns: 1fr auto !important; padding: 0 20px !important; }
           .nav-links-desktop { display: none !important; }
           .nav-hire-btn { display: none !important; }
           .nav-burger { display: block !important; }

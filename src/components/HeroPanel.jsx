@@ -37,7 +37,7 @@ export default function HeroPanel() {
 
   return (
     <div className="hero-panel" style={{
-      width: '100%', height: '100%', display: 'flex', flexDirection: 'column',
+      width: '100%', height: '100%', minHeight: '100svh', display: 'flex', flexDirection: 'column',
       justifyContent: 'space-between', padding: 'clamp(60px, 10vh, 80px) clamp(20px, 5vw, 60px) clamp(24px, 4vh, 40px)',
       background: 'var(--bg)', position: 'relative', overflow: 'hidden',
     }}>

@@ -177,7 +177,7 @@ export default function Services() {
 
       <style>{`
         @media (max-width: 600px) {
-          .services-panel { height: auto !important; min-height: 100vh; }
+          .services-panel { height: auto !important; min-height: auto; padding-top: 24px !important; padding-bottom: 24px !important; }
           .services-split { flex-direction: column !important; }
           .services-cards { flex: 1 !important; }
           .services-process { margin-top: 16px; }
