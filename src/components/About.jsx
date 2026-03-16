@@ -36,44 +36,43 @@ function Counter({ to, suffix }) {
 
 export default function About() {
   return (
-    <div style={{
-      width: '100%', height: '100%', padding: '70px 60px 40px',
+    <div className="about-panel" style={{
+      width: '100%', height: '100%',
+      padding: 'clamp(60px, 10vh, 70px) clamp(20px, 5vw, 60px) clamp(20px, 4vh, 40px)',
       display: 'flex', flexDirection: 'column', background: 'var(--bg-2)',
       position: 'relative', overflow: 'hidden',
     }}>
-      {/* Header */}
-      <div style={{ marginBottom: 28 }}>
+      <div style={{ marginBottom: 'clamp(16px, 3vh, 28px)' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-dim)', textTransform: 'uppercase' }}>
           // About
         </span>
       </div>
 
       {/* Main content — two columns */}
-      <div style={{ display: 'flex', gap: 48, flex: 1, minHeight: 0 }}>
+      <div className="about-main" style={{ display: 'flex', gap: 'clamp(24px, 4vw, 48px)', flex: 1, minHeight: 0 }}>
         {/* Left — ID Card */}
-        <div className="about-blob-card" style={{
-          flex: '0 0 280px', position: 'relative', borderRadius: 12,
+        <div className="about-blob-card about-card" style={{
+          flex: '0 0 clamp(180px, 30vw, 280px)', position: 'relative', borderRadius: 12,
           border: '1px solid var(--border)', background: 'var(--bg-card)',
           display: 'flex', flexDirection: 'column', alignItems: 'center',
-          justifyContent: 'center', overflow: 'hidden', padding: 32,
+          justifyContent: 'center', overflow: 'hidden', padding: 'clamp(20px, 3vw, 32px)',
         }}>
           {/* Corner marks */}
-          {['top:12px;left:12px', 'top:12px;right:12px', 'bottom:12px;left:12px', 'bottom:12px;right:12px'].map((pos, i) => {
-            const s = pos.split(';').reduce((a, p) => { const [k, v] = p.split(':'); a[k] = v; return a }, {})
-            return (
-              <div key={i} style={{
-                position: 'absolute', ...s, width: 12, height: 12,
-                borderColor: 'var(--lime)', borderStyle: 'solid', borderWidth: 0,
-                ...(i === 0 ? { borderTopWidth: 1, borderLeftWidth: 1 } : {}),
-                ...(i === 1 ? { borderTopWidth: 1, borderRightWidth: 1 } : {}),
-                ...(i === 2 ? { borderBottomWidth: 1, borderLeftWidth: 1 } : {}),
-                ...(i === 3 ? { borderBottomWidth: 1, borderRightWidth: 1 } : {}),
-                opacity: 0.5,
-              }} />
-            )
-          })}
+          {[{ top: 12, left: 12, bt: 1, bl: 1 }, { top: 12, right: 12, bt: 1, br: 1 }, { bottom: 12, left: 12, bb: 1, bl: 1 }, { bottom: 12, right: 12, bb: 1, br: 1 }].map((c, i) => (
+            <div key={i} style={{
+              position: 'absolute', width: 12, height: 12,
+              ...(c.top !== undefined ? { top: c.top } : {}),
+              ...(c.bottom !== undefined ? { bottom: c.bottom } : {}),
+              ...(c.left !== undefined ? { left: c.left } : {}),
+              ...(c.right !== undefined ? { right: c.right } : {}),
+              borderTop: c.bt ? '1px solid var(--lime)' : 'none',
+              borderBottom: c.bb ? '1px solid var(--lime)' : 'none',
+              borderLeft: c.bl ? '1px solid var(--lime)' : 'none',
+              borderRight: c.br ? '1px solid var(--lime)' : 'none',
+              opacity: 0.5,
+            }} />
+          ))}
 
-          {/* Scan line */}
           <motion.div
             animate={{ top: ['0%', '100%', '0%'] }}
             transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
@@ -83,32 +82,29 @@ export default function About() {
             }}
           />
 
-          {/* Grid overlay */}
           <div style={{
             position: 'absolute', inset: 0, opacity: 0.03,
             backgroundImage: 'linear-gradient(var(--text-dim) 1px, transparent 1px), linear-gradient(90deg, var(--text-dim) 1px, transparent 1px)',
             backgroundSize: '20px 20px',
           }} />
 
-          {/* Large S */}
           <div style={{
-            fontSize: 120, fontFamily: 'var(--font-display)', color: 'transparent',
+            fontSize: 'clamp(60px, 12vw, 120px)', fontFamily: 'var(--font-display)', color: 'transparent',
             WebkitTextStroke: '1px var(--magenta)', opacity: 0.3, lineHeight: 1,
             position: 'relative', zIndex: 1,
           }}>
             S
           </div>
 
-          <div style={{ textAlign: 'center', position: 'relative', zIndex: 1, marginTop: 16 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.1em' }}>
+          <div style={{ textAlign: 'center', position: 'relative', zIndex: 1, marginTop: 12 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(10px, 1.5vw, 12px)', fontWeight: 700, letterSpacing: '0.1em' }}>
               SHAMEEM <span style={{ color: 'var(--magenta)' }}>·</span> K
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: 'var(--text-muted)', marginTop: 4, letterSpacing: '0.12em' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(7px, 1vw, 9px)', color: 'var(--text-muted)', marginTop: 4, letterSpacing: '0.12em' }}>
               UX DESIGNER · AI RESEARCHER
             </div>
           </div>
 
-          {/* Floating dots */}
           <motion.div
             animate={{ y: [-4, 4, -4] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
@@ -122,19 +118,18 @@ export default function About() {
         </div>
 
         {/* Right — Bio + Tags */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <p style={{ fontSize: 18, lineHeight: 1.8, fontWeight: 300, color: 'var(--text-muted)', marginBottom: 24 }}>
+        <div className="about-bio" style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <p style={{ fontSize: 'clamp(14px, 2.5vw, 18px)', lineHeight: 1.8, fontWeight: 300, color: 'var(--text-muted)', marginBottom: 20 }}>
             Crafting <strong style={{ color: 'var(--magenta)', fontWeight: 600 }}>human-centered digital experiences</strong> with
             a sharp eye for usability and aesthetics. I bridge the gap between intelligent systems and seamless interfaces.
           </p>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 20 }}>
             {tags.map((tag) => (
               <span key={tag} style={{
-                fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.1em',
-                padding: '6px 14px', borderRadius: 20, textTransform: 'uppercase',
+                fontFamily: 'var(--font-mono)', fontSize: 'clamp(8px, 1.2vw, 10px)', letterSpacing: '0.1em',
+                padding: '5px 12px', borderRadius: 20, textTransform: 'uppercase',
                 border: '1px solid var(--border)', color: 'var(--text-muted)',
-                transition: 'border-color 0.3s, color 0.3s',
               }}>
                 {tag}
               </span>
@@ -155,19 +150,19 @@ export default function About() {
       </div>
 
       {/* Stats */}
-      <div style={{
-        display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16,
-        marginTop: 28, paddingTop: 24, borderTop: '1px solid var(--border)',
+      <div className="about-stats" style={{
+        display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'clamp(8px, 2vw, 16px)',
+        marginTop: 'clamp(16px, 3vh, 28px)', paddingTop: 'clamp(12px, 2vh, 24px)', borderTop: '1px solid var(--border)',
       }}>
         {stats.map(({ value, suffix, label }) => (
           <div key={label} style={{ textAlign: 'center' }}>
             <div style={{
-              fontFamily: 'var(--font-display)', fontSize: 42, lineHeight: 1,
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 6vw, 42px)', lineHeight: 1,
               color: 'var(--text)',
             }}>
               <Counter to={value} suffix={suffix} />
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.14em', color: 'var(--text-dim)', marginTop: 6, textTransform: 'uppercase' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(7px, 1vw, 9px)', letterSpacing: '0.14em', color: 'var(--text-dim)', marginTop: 4, textTransform: 'uppercase' }}>
               {label}
             </div>
           </div>
@@ -175,7 +170,7 @@ export default function About() {
       </div>
 
       {/* Tools marquee */}
-      <div style={{ overflow: 'hidden', marginTop: 20 }}>
+      <div style={{ overflow: 'hidden', marginTop: 'clamp(12px, 2vh, 20px)' }}>
         <motion.div
           animate={{ x: ['0%', '-50%'] }}
           transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
@@ -191,6 +186,15 @@ export default function About() {
           ))}
         </motion.div>
       </div>
+
+      <style>{`
+        @media (max-width: 600px) {
+          .about-panel { height: auto !important; min-height: 100vh; }
+          .about-main { flex-direction: column !important; }
+          .about-card { flex: none !important; width: 100% !important; height: 200px !important; }
+          .about-stats { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+      `}</style>
     </div>
   )
 }

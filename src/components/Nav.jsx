@@ -81,7 +81,6 @@ export default function Nav({ panels }) {
         <button
           onClick={() => scrollToPanel('hero')}
           style={{
-            background: 'none', border: 'none', cursor: 'none',
             fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 400,
             letterSpacing: '0.06em', color: 'var(--text)', textAlign: 'left',
           }}
@@ -98,7 +97,6 @@ export default function Nav({ panels }) {
                 key={id}
                 onClick={() => scrollToPanel(id)}
                 style={{
-                  background: 'none', border: 'none', cursor: 'none',
                   fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                   color: isActive ? 'var(--magenta)' : 'var(--text-muted)',
@@ -122,7 +120,7 @@ export default function Nav({ panels }) {
               letterSpacing: '0.12em', textTransform: 'uppercase',
               padding: '8px 20px', borderRadius: 4,
               border: '1px solid var(--magenta)', color: 'var(--magenta)',
-              background: 'transparent', cursor: 'none',
+              background: 'transparent',
               transition: 'background 0.3s, color 0.3s, box-shadow 0.3s',
             }}
             onMouseEnter={(e) => { e.target.style.background = 'var(--magenta)'; e.target.style.color = 'var(--bg)'; e.target.style.boxShadow = '0 0 20px var(--magenta-glow)' }}
@@ -137,7 +135,7 @@ export default function Nav({ panels }) {
             onClick={() => setOpen(!open)}
             aria-label="Menu"
             style={{
-              display: 'none', background: 'none', border: 'none', cursor: 'none',
+              display: 'none',
               width: 32, height: 24, position: 'relative',
             }}
           >
@@ -170,7 +168,7 @@ export default function Nav({ panels }) {
                 transition={{ delay: i * 0.08 }}
                 onClick={() => scrollToPanel(id)}
                 style={{
-                  background: 'none', border: 'none', cursor: 'pointer',
+                  cursor: 'pointer',
                   fontFamily: 'var(--font-display)', fontSize: 48,
                   color: activePanelId === id ? 'var(--magenta)' : 'var(--text)',
                   letterSpacing: '0.05em',

@@ -34,12 +34,11 @@ const roles = [
 
 export default function HeroPanel() {
   const name = useScramble('SHAMEEM', 600)
-  const containerRef = useRef(null)
 
   return (
-    <div ref={containerRef} style={{
+    <div className="hero-panel" style={{
       width: '100%', height: '100%', display: 'flex', flexDirection: 'column',
-      justifyContent: 'space-between', padding: '80px 60px 40px',
+      justifyContent: 'space-between', padding: 'clamp(60px, 10vh, 80px) clamp(20px, 5vw, 60px) clamp(24px, 4vh, 40px)',
       background: 'var(--bg)', position: 'relative', overflow: 'hidden',
     }}>
       {/* Grid overlay */}
@@ -71,35 +70,36 @@ export default function HeroPanel() {
       />
 
       {/* Top row */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 1 }}>
+      <div className="hero-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 1 }}>
         <div>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.15em', color: 'var(--magenta)' }}>
             // 001 — PORTFOLIO
           </span>
-          <p style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-muted)', marginTop: 12, lineHeight: 1.7, maxWidth: 280 }}>
+          <p style={{ fontSize: 'clamp(13px, 2.5vw, 16px)', fontWeight: 300, color: 'var(--text-muted)', marginTop: 12, lineHeight: 1.7, maxWidth: 280 }}>
             Designing Experiences,<br />Researching Intelligence,<br />Building Commerce.
           </p>
         </div>
 
         <motion.div
+          className="hero-badge"
           animate={{ rotate: [0, 360] }}
           transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
           style={{
-            width: 100, height: 100, borderRadius: '50%',
-            border: '1px solid var(--border)',
+            width: 'clamp(60px, 12vw, 100px)', height: 'clamp(60px, 12vw, 100px)', borderRadius: '50%',
+            border: '1px solid var(--border)', flexShrink: 0,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.1em',
-            color: 'var(--text-muted)', textTransform: 'uppercase',
+            fontFamily: 'var(--font-mono)', fontSize: 'clamp(6px, 1.2vw, 9px)', letterSpacing: '0.1em',
+            color: 'var(--text-muted)', textTransform: 'uppercase', textAlign: 'center',
           }}
         >
-          <span style={{ transform: 'rotate(0deg)' }}>Available for work</span>
+          <span>Available for work</span>
         </motion.div>
       </div>
 
       {/* Name — massive */}
-      <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+      <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', overflow: 'hidden' }}>
         <h1 style={{
-          fontFamily: 'var(--font-display)', fontSize: 'clamp(80px, 20vw, 260px)',
+          fontFamily: 'var(--font-display)', fontSize: 'clamp(52px, 18vw, 260px)',
           fontWeight: 400, letterSpacing: '0.02em', lineHeight: 0.9,
           background: 'linear-gradient(135deg, var(--magenta), var(--violet))',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
@@ -110,9 +110,9 @@ export default function HeroPanel() {
       </div>
 
       {/* Bottom row */}
-      <div style={{
+      <div className="hero-bottom" style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
-        position: 'relative', zIndex: 1,
+        position: 'relative', zIndex: 1, flexWrap: 'wrap', gap: 12,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-dim)', textTransform: 'uppercase' }}>
@@ -127,12 +127,12 @@ export default function HeroPanel() {
           </motion.span>
         </div>
 
-        <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+        <div className="hero-roles" style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           {roles.map(({ label, color }) => (
             <span key={label} style={{
-              fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.12em',
+              fontFamily: 'var(--font-mono)', fontSize: 'clamp(7px, 1.5vw, 10px)', letterSpacing: '0.12em',
               textTransform: 'uppercase', color: 'var(--text-muted)',
-              padding: '6px 14px', border: `1px solid ${color}30`,
+              padding: '5px 10px', border: `1px solid ${color}30`,
               borderRadius: 20, background: `${color}08`,
             }}>
               {label}

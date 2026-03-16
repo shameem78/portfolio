@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { motion, useMotionValue } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 const projects = [
   { num: '01', title: 'Creative Agency Website', tag: 'UX DESIGN', problem: 'Outdated brand presence with low engagement', stack: ['Figma', 'Framer', 'GSAP'], result: '+64% conversion rate', accent: 'var(--magenta)' },
@@ -9,12 +9,10 @@ const projects = [
 ]
 
 function ProjectCard({ project, index }) {
-  const cardRef = useRef(null)
   const [hovered, setHovered] = useState(false)
 
   return (
     <motion.div
-      ref={cardRef}
       className="work-card"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -29,14 +27,13 @@ function ProjectCard({ project, index }) {
         transition: 'border-color 0.3s',
       }}
     >
-      {/* Image placeholder */}
       <div style={{
         aspectRatio: '16/10', background: 'var(--bg-2)', position: 'relative', overflow: 'hidden',
       }}>
         <span style={{
-          position: 'absolute', top: 12, left: 12, zIndex: 2,
-          fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.14em',
-          padding: '5px 12px', borderRadius: 4,
+          position: 'absolute', top: 10, left: 10, zIndex: 2,
+          fontFamily: 'var(--font-mono)', fontSize: 'clamp(7px, 1.5vw, 9px)', letterSpacing: '0.14em',
+          padding: '4px 10px', borderRadius: 4,
           border: `1px solid ${project.accent}50`, color: project.accent,
           background: `${project.accent}10`, textTransform: 'uppercase',
         }}>
@@ -57,25 +54,25 @@ function ProjectCard({ project, index }) {
         )}
       </div>
 
-      <div style={{ padding: '16px 16px 18px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)' }}>{project.title}</h3>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--text-dim)' }}>({project.num})</span>
+      <div style={{ padding: 'clamp(10px, 2vw, 16px)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
+          <h3 style={{ fontSize: 'clamp(12px, 2vw, 14px)', fontWeight: 600, color: 'var(--text)' }}>{project.title}</h3>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(8px, 1.2vw, 10px)', color: 'var(--text-dim)' }}>({project.num})</span>
         </div>
-        <p style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 12, fontWeight: 300 }}>{project.problem}</p>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', gap: 6 }}>
+        <p style={{ fontSize: 'clamp(9px, 1.5vw, 11px)', color: 'var(--text-muted)', marginBottom: 10, fontWeight: 300 }}>{project.problem}</p>
+        <div className="card-meta" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 6 }}>
+          <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
             {project.stack.map((t) => (
               <span key={t} style={{
-                fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.1em',
-                padding: '3px 8px', borderRadius: 3, border: '1px solid var(--border)',
+                fontFamily: 'var(--font-mono)', fontSize: 'clamp(6px, 1vw, 8px)', letterSpacing: '0.1em',
+                padding: '2px 6px', borderRadius: 3, border: '1px solid var(--border)',
                 color: 'var(--text-dim)', textTransform: 'uppercase',
               }}>
                 {t}
               </span>
             ))}
           </div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: project.accent, fontWeight: 700 }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(8px, 1.2vw, 10px)', color: project.accent, fontWeight: 700 }}>
             {project.result}
           </span>
         </div>
@@ -86,31 +83,39 @@ function ProjectCard({ project, index }) {
 
 export default function Work() {
   return (
-    <div style={{
-      width: '100%', height: '100%', padding: '70px 60px 40px',
+    <div className="work-panel" style={{
+      width: '100%', height: '100%',
+      padding: 'clamp(60px, 10vh, 70px) clamp(20px, 5vw, 60px) clamp(20px, 4vh, 40px)',
       display: 'flex', flexDirection: 'column', justifyContent: 'center',
       background: 'var(--bg)', position: 'relative',
     }}>
-      <div style={{ marginBottom: 32 }}>
+      <div style={{ marginBottom: 'clamp(16px, 3vh, 32px)' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-dim)', textTransform: 'uppercase' }}>
           // Selected Projects
         </span>
         <h2 style={{
-          fontFamily: 'var(--font-display)', fontSize: 'clamp(48px, 8vw, 90px)',
+          fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 8vw, 90px)',
           fontWeight: 400, lineHeight: 0.95, marginTop: 8,
         }}>
           Featured <span style={{ color: 'var(--magenta)', textShadow: '0 0 30px var(--magenta-glow)' }}>Work</span>
         </h2>
       </div>
 
-      <div style={{
-        display: 'grid', gridTemplateColumns: '1fr 1fr',
-        gap: 16, flex: 1, maxHeight: 'calc(100vh - 220px)',
+      <div className="work-grid" style={{
+        display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: 'clamp(8px, 1.5vw, 16px)', flex: 1, maxHeight: 'calc(100vh - 220px)',
       }}>
         {projects.map((p, i) => (
           <ProjectCard key={p.num} project={p} index={i} />
         ))}
       </div>
+
+      <style>{`
+        @media (max-width: 600px) {
+          .work-grid { grid-template-columns: 1fr !important; max-height: none !important; }
+          .work-panel { height: auto !important; min-height: 100vh; }
+        }
+      `}</style>
     </div>
   )
 }

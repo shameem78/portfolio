@@ -58,7 +58,7 @@ function ServiceCard({ service }) {
         rotateX: rx, rotateY: ry, transformPerspective: 800,
         position: 'relative', overflow: 'hidden', borderRadius: 8,
         border: `1px solid ${hovered ? service.accent + '25' : 'var(--border)'}`,
-        padding: '24px 22px', background: 'var(--bg-card)', cursor: 'none',
+        padding: 'clamp(16px, 3vw, 24px)', background: 'var(--bg-card)', cursor: 'none',
         transition: 'border-color 0.3s',
       }}
     >
@@ -74,19 +74,19 @@ function ServiceCard({ service }) {
 
       <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: service.accent }}>{service.num}</span>
       <h3 style={{
-        fontFamily: 'var(--font-display)', fontSize: 28, lineHeight: 1.1,
+        fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 4vw, 28px)', lineHeight: 1.1,
         marginTop: 8, marginBottom: 10, whiteSpace: 'pre-line',
       }}>
         {service.title}
       </h3>
-      <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 300, marginBottom: 14 }}>
+      <p style={{ fontSize: 'clamp(11px, 1.5vw, 12px)', color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 300, marginBottom: 14 }}>
         {service.desc}
       </p>
       {service.items.map((item) => (
         <div key={item} style={{
           display: 'flex', alignItems: 'center', gap: 8,
-          padding: '6px 0', borderBottom: '1px solid var(--border)',
-          fontSize: 11, color: 'var(--text-muted)', fontWeight: 400,
+          padding: '5px 0', borderBottom: '1px solid var(--border)',
+          fontSize: 'clamp(10px, 1.4vw, 11px)', color: 'var(--text-muted)', fontWeight: 400,
         }}>
           <span style={{ width: 4, height: 4, borderRadius: '50%', background: service.accent, flexShrink: 0 }} />
           {item}
@@ -100,31 +100,32 @@ export default function Services() {
   const [hoveredStep, setHoveredStep] = useState(null)
 
   return (
-    <div style={{
-      width: '100%', height: '100%', padding: '70px 60px 40px',
+    <div className="services-panel" style={{
+      width: '100%', height: '100%',
+      padding: 'clamp(60px, 10vh, 70px) clamp(20px, 5vw, 60px) clamp(20px, 4vh, 40px)',
       display: 'flex', flexDirection: 'column', background: 'var(--bg-2)',
       position: 'relative', overflow: 'hidden',
     }}>
-      <div style={{ marginBottom: 28 }}>
+      <div style={{ marginBottom: 'clamp(16px, 3vh, 28px)' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.15em', color: 'var(--text-dim)', textTransform: 'uppercase' }}>
           // What I Do
         </span>
         <h2 style={{
-          fontFamily: 'var(--font-display)', fontSize: 'clamp(44px, 7vw, 80px)',
+          fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 7vw, 80px)',
           fontWeight: 400, lineHeight: 0.95, marginTop: 8,
         }}>
           What I <span style={{ color: 'var(--lime)', textShadow: '0 0 30px var(--lime-glow)' }}>Bring</span>
         </h2>
       </div>
 
-      <div style={{ display: 'flex', gap: 32, flex: 1, minHeight: 0 }}>
-        <div style={{ flex: '0 0 55%', display: 'flex', flexDirection: 'column', gap: 12, overflow: 'auto' }}>
+      <div className="services-split" style={{ display: 'flex', gap: 'clamp(16px, 3vw, 32px)', flex: 1, minHeight: 0 }}>
+        <div className="services-cards" style={{ flex: '0 0 55%', display: 'flex', flexDirection: 'column', gap: 12, overflow: 'auto' }}>
           {services.map((s) => (
             <ServiceCard key={s.num} service={s} />
           ))}
         </div>
 
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative' }}>
+        <div className="services-process" style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative' }}>
           <h3 style={{
             fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.15em',
             color: 'var(--text-dim)', textTransform: 'uppercase', marginBottom: 24,
@@ -132,7 +133,7 @@ export default function Services() {
             // Process
           </h3>
 
-          <div style={{
+          <div className="process-line" style={{
             position: 'absolute', left: 18, top: 60, bottom: 40,
             width: 1, background: 'linear-gradient(to bottom, var(--violet), var(--violet-glow), transparent)',
           }} />
@@ -143,8 +144,8 @@ export default function Services() {
               onMouseEnter={() => setHoveredStep(i)}
               onMouseLeave={() => setHoveredStep(null)}
               style={{
-                display: 'flex', gap: 20, alignItems: 'flex-start',
-                padding: '18px 16px', marginLeft: 4, borderRadius: 6,
+                display: 'flex', gap: 16, alignItems: 'flex-start',
+                padding: 'clamp(10px, 2vh, 18px) clamp(8px, 2vw, 16px)', marginLeft: 4, borderRadius: 6,
                 background: hoveredStep === i ? 'rgba(255,255,255,0.02)' : 'transparent',
                 transition: 'background 0.3s', cursor: 'none',
               }}
@@ -159,13 +160,13 @@ export default function Services() {
               </span>
               <div>
                 <h4 style={{
-                  fontSize: 16, fontWeight: 600, marginBottom: 4,
+                  fontSize: 'clamp(13px, 2vw, 16px)', fontWeight: 600, marginBottom: 4,
                   color: hoveredStep === i ? 'var(--violet)' : 'var(--text)',
                   transition: 'color 0.3s',
                 }}>
                   {step.title}
                 </h4>
-                <p style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 300, lineHeight: 1.6 }}>
+                <p style={{ fontSize: 'clamp(10px, 1.5vw, 12px)', color: 'var(--text-muted)', fontWeight: 300, lineHeight: 1.6 }}>
                   {step.desc}
                 </p>
               </div>
@@ -173,6 +174,16 @@ export default function Services() {
           ))}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 600px) {
+          .services-panel { height: auto !important; min-height: 100vh; }
+          .services-split { flex-direction: column !important; }
+          .services-cards { flex: 1 !important; }
+          .services-process { margin-top: 16px; }
+          .process-line { display: none !important; }
+        }
+      `}</style>
     </div>
   )
 }
